@@ -9,7 +9,8 @@ import lombok.Getter;
 @JsonFormat(pattern = "yyyy--MM--dd HH:mm:ss", timezone = "Asia/Seoul")
 public enum ErrorCode {
     INVALID_TOKEN(400, "AUTH400-0", "Invalid Token"),
-    USER_NOT_FOUND(404, "USER404-0", "User Not Found");
+    USER_NOT_FOUND(404, "USER404-0", "User Not Found"),
+    NOTICE_NOT_FOUND(404, "NOTICE404-0","Notice Not Found");
 
     private final int status;
     private final String code;
