@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.notice;
 
+import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,19 +16,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "notice_tbl")
 @Entity
-public class Notice {
+public class Notice extends BaseEntity {
 
     @Id @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(length = 50, nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
-
-    @Column(nullable = false, name = "created_at")
-    private LocalDateTime createdAt;
 
     @Column(length = 50, name = "file_name")
     private String fileName;

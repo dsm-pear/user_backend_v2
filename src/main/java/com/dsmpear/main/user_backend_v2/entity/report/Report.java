@@ -1,17 +1,18 @@
 package com.dsmpear.main.user_backend_v2.entity.report;
 
+import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
+import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
+import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
@@ -20,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "report_tbl")
 @Entity
-public class Report {
+public class Report extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,26 +32,6 @@ public class Report {
 
     @Column(nullable = false)
     private String description;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd kk:mm:ss")
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Grade grade;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Access access;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Field field;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Type type;
 
     @Column(name = "is_accepted", nullable = false)
     private Boolean isAccepted;
@@ -64,24 +45,30 @@ public class Report {
     @Column(nullable = false)
     private String github;
 
-    @Column(nullable = false)
-    private String languages;
-
     @Column(nullable = false, name = "team_name")
     private String teamName;
 
-    @Column(nullable = true)
     private String comment;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "report")
+
+    //  관계매핑
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy ="report", fetch = FetchType.EAGER)
+    @JsonBackReference
+    private ReportType reportType;
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "report", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Language> language;
+
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "report", fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Member> members;
 
-    @OneToOne(mappedBy = "report", cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "report", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonBackReference
     private ReportFile reportFile;
 
-    @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Comment> comments;
 

@@ -14,13 +14,13 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @Table(name = "question_tbl")
 @Entity
-public class Question{
+public class Question {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(nullable = false,length = 30)
     @Email
+    @Column(nullable = false,length = 30)
     private String email;
 
     @Column(nullable = false, length = 150)

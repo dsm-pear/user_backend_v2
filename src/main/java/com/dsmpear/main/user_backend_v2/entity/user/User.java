@@ -1,5 +1,8 @@
 package com.dsmpear.main.user_backend_v2.entity.user;
 
+import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
+import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Builder
@@ -33,6 +37,14 @@ public class User {
 
     @Column(name = "auth_status", nullable = false)
     private Boolean authStatus;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Member> member;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Comment> comments;
 
     public void authenticatedSuccess() {
         this.authStatus = true;

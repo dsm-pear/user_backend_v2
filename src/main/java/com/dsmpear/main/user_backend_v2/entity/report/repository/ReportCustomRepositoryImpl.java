@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.report.repository;
 
-import com.dsmpear.main.entity.report.*;
+import com.dsmpear.main.user_backend_v2.entity.report.*;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import static com.dsmpear.main.entity.report.QReport.report;
+import static com.dsmpear.main.user_backend_v2.entity.report.QReport.report;
 
 
 @RequiredArgsConstructor
@@ -44,27 +44,27 @@ public class ReportCustomRepositoryImpl {
         if (access == null) {
             return null;
         }
-        return report.access.eq(access);
+        return report.reportType.access.eq(access);
     }
 
     private BooleanExpression eqGrade(Grade grade) {
         if(grade == null) {
             return null;
         }
-        return report.grade.eq(grade);
+        return report.reportType.grade.eq(grade);
     }
 
     private BooleanExpression eqField(Field field) {
         if(field == null) {
             return null;
         }
-        return report.field.eq(field);
+        return report.reportType.field.eq(field);
     }
 
     private BooleanExpression eqType(Type type) {
         if(type == null) {
             return null;
         }
-        return report.type.eq(type);
+        return report.reportType.type.eq(type);
     }
 }
