@@ -1,6 +1,8 @@
 package com.dsmpear.main.user_backend_v2.entity.comment;
 
+import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
+import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 
 @Builder
@@ -17,22 +18,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "comment_tbl")
 @Entity
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "report_id")
     @JsonManagedReference
     private Report report;
 
-    @Column(nullable = false, name="user_email")
-    private String userEmail;
-
-    @Column(nullable = false, name="created_at")
-    private LocalDateTime createdAt;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_email")
+    @JsonManagedReference
+    private User user;
 
     @Column(nullable = false)
     private String content;
@@ -43,3 +43,4 @@ public class Comment {
     }
 
 }
+
