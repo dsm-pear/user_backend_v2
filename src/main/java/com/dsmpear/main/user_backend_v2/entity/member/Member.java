@@ -1,6 +1,7 @@
 package com.dsmpear.main.user_backend_v2.entity.member;
 
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
+import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,15 +19,17 @@ import javax.persistence.*;
 @Entity
 public class Member {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue
     private Integer id;
-
-    @Column(length = 30,nullable = false, name= "user_email")
-    private String userEmail;
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "report")
+    @JoinColumn(name = "user_email")
+    private User user;
+
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "report_id")
     private Report report;
 
 }
