@@ -43,10 +43,9 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public NoticeContentResponse getNoticeContent(Integer noticeId) {
+    public NoticeContentResponse getNoticeContent(Long noticeId) {
         Notice notice = noticeRepository.findById(noticeId)
                 .orElseThrow(NoticeNotFoundException::new);
-
 
         return NoticeContentResponse.builder()
                 .title(notice.getTitle())

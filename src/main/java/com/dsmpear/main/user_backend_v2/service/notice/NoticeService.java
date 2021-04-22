@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface NoticeService {
     NoticesResponse getNoticeList(Pageable page);
-    NoticeContentResponse getNoticeContent(Integer noticeId);
+    NoticeContentResponse getNoticeContent(Long noticeId);
 }
