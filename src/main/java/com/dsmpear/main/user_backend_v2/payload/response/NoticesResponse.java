@@ -6,12 +6,12 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class NoticeListResponse extends PageResponse {
+public class NoticesResponse extends PageResponse {
 
     private List<NoticeResponse> noticeResponses;
 
     @Builder
-    public NoticeListResponse(Long totalElements, int totalPages, List<NoticeResponse> noticeResponses) {
+    public NoticesResponse(Long totalElements, int totalPages, List<NoticeResponse> noticeResponses) {
         super(totalElements, totalPages);
         this.noticeResponses = noticeResponses;
     }

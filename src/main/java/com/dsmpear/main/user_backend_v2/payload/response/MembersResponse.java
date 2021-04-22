@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class MemberListResponse {
+public class MembersResponse {
 
     private List<MemberResponse> memberResponses;
 
