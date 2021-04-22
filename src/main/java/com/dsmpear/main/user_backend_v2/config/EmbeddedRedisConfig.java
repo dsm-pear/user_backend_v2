@@ -10,24 +10,25 @@ import javax.annotation.PreDestroy;
 import java.io.IOException;
 
 @Configuration
-@Profile("test")
+@Profile("local")
 public class EmbeddedRedisConfig {
 
-    @Value("${spring.redis.port}")
-    private int redisPort;
-    private RedisServer redisServer;
+    private final RedisServer redisServer;
+
+    public EmbeddedRedisConfig(@Value("${spring.redis.port}") int redisPort) {
+        this.redisServer = RedisServer.builder()
+                .setting("maxheap 128M")
+                .build();
+    }
 
     @PostConstruct
-    public void redisServer() throws IOException {
-        redisServer = new RedisServer(redisPort);
+    public void runRedis() {
         redisServer.start();
     }
 
     @PreDestroy
     public void stopRedis() {
-        if (redisServer != null) {
-            redisServer.stop();
-        }
+        redisServer.stop();
     }
 
 }
