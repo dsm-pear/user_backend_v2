@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL:jdbc:mysql://localhost:3306/pear?serverTimezone=UTC&characterEncoding=UTF-8}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:rootroot}
+
+  jpa:
+    generate-ddl: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls:
+            enable: true
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+
+auth:
+  jwt:
+    secret: ${JWT_SECRET:pear}
+    exp:
+      access: ${JWT_ACCESS_TOKEN_EXP:1000}
+      refresh: ${JWT_REFRESH_TOKEN_EXP:10000}
+    header: ${JWT_HEADER:Authorization}
+    prefix: ${JWT_PREFIX:Bearer}
+
+email:
+  secret: ${EMAIL_SECRET:}
+
+server:
+  url: ${SERVER_URL:}
+
+secret:
+  key: ${SERVER_KEY:}
+
