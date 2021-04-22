@@ -47,9 +47,16 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.2'
 
-	// lombok
-	compile "org.projectlombok:lombok:1.18.8"
-	annotationProcessor("org.projectlombok:lombok:1.18.8")
+	compileOnly "org.mapstruct:mapstruct:1.4.0.Final", "org.projectlombok:lombok:1.18.8"
+	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.0.Final", "org.projectlombok:lombok:1.18.8"
+//
+//	// lombok
+//	compile "org.projectlombok:lombok:1.18.8"
+//	annotationProcessor("org.projectlombok:lombok:1.18.8")
+//
+//	// mapStruct
+//	compileOnly "org.mapstruct:mapstruct:1.4.0.Final"
+//	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.0.Final"
 
 	// validation (For using @Valid Annotation)
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -71,10 +78,6 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
 	annotationProcessor("jakarta.annotation:jakarta.annotation-api")
 	annotationProcessor("jakarta.persistence:jakarta.persistence-api")
-
-	// mapStruct
-	compileOnly "org.mapstruct:mapstruct:1.4.0.Final"
-	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.0.Final"
 
 }
 
