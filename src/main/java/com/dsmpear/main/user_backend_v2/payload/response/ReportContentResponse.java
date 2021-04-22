@@ -1,9 +1,9 @@
 package com.dsmpear.main.user_backend_v2.payload.response;
 
-import com.dsmpear.main.user_backend_v2.entity.report.Access;
-import com.dsmpear.main.user_backend_v2.entity.report.Field;
-import com.dsmpear.main.user_backend_v2.entity.report.Grade;
-import com.dsmpear.main.user_backend_v2.entity.report.Type;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

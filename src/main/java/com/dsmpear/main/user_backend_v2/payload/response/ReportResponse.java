@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.payload.response;
 
-import com.dsmpear.main.user_backend_v2.entity.report.Type;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,10 @@
 package com.dsmpear.main.user_backend_v2.entity.report.repository;
 
 import com.dsmpear.main.user_backend_v2.entity.report.*;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import static com.dsmpear.main.user_backend_v2.entity.report.QReport.report;
-
 
 @RequiredArgsConstructor
 @Repository

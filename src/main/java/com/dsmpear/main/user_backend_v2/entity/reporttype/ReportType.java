@@ -1,7 +1,8 @@
 package com.dsmpear.main.user_backend_v2.entity.reporttype;
 
-import com.dsmpear.main.user_backend_v2.entity.report.*;
-import com.dsmpear.main.user_backend_v2.entity.report.Access;
+import com.dsmpear.main.user_backend_v2.entity.report.Report;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.*;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
