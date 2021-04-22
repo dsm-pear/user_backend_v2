@@ -24,7 +24,7 @@ import java.util.List;
 public class Report extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false)
@@ -39,16 +39,12 @@ public class Report extends BaseEntity {
     @Column(name = "is_submitted", nullable = false)
     private Boolean isSubmitted;
 
-    @Column(name = "file_name",nullable = false)
-    private String fileName;
-
-    @Column(nullable = false)
-    private String github;
-
     @Column(nullable = false, name = "team_name")
     private String teamName;
 
     private String comment;
+
+    private String github;
 
 
     //  관계매핑
@@ -58,7 +54,7 @@ public class Report extends BaseEntity {
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "report", fetch = FetchType.LAZY)
     @JsonBackReference
-    private List<Language> language;
+    private List<Language> languages;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "report", fetch = FetchType.LAZY)
     @JsonBackReference

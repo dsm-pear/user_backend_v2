@@ -4,5 +4,5 @@ import org.mapstruct.MapperConfig;
 import org.mapstruct.ReportingPolicy;
 
 @MapperConfig(componentModel = "spring", unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public class MapStructConfig {
+public interface MapStructConfig {
 }

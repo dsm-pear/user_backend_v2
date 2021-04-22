@@ -12,6 +12,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Builder
@@ -25,8 +26,7 @@ public class ReportRequest {
     @NotBlank
     private String description;
 
-    @NotNull
-    private String languages;
+    private List<String> languages;
 
     @NotNull
     private Type type;

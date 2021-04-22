@@ -24,7 +24,7 @@ public class ReportContentResponse {
 
     private LocalDateTime createdAt;
 
-    private String languages;
+    private List<String> languages;
 
     private String fileName;
 
