@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.payload.request;
 
+import com.dsmpear.main.user_backend_v2.config.ValidateEmail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ public class RegisterRequest {
 
     @Email
     @NotBlank(message = "이메일을 입력해주세요.")
+    @ValidateEmail
     private String email;
 
     public Boolean isValidAddress(String validAddress) {

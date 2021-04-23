@@ -13,7 +13,9 @@ public enum ErrorCode {
     REPORT_NOT_FOUND(404, "REPORT404-0", "Report Not Found"),
     INVALID_ACCESS(401, "REPORT401-0", "Invalid Access"),
     NOTICE_NOT_FOUND(404, "NOTICE404-0","Notice Not Found"),
-    COMMENT_NOT_FOUND(404, "RPEORT404-0","Report Not Found");
+    COMMENT_NOT_FOUND(404, "REPORT404-0","Report Not Found"),
+    USER_ALREADY_EXIST(409, "USER409-0","User Already Exist"),
+    NUMBER_NOT_FOUND(404, "NUMBER404-0","Number Not Found");
 
     private final int status;
     private final String code;
