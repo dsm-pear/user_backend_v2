@@ -1,9 +1,6 @@
 package com.dsmpear.main.user_backend_v2.service.report;
 
-import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
-import com.dsmpear.main.user_backend_v2.entity.comment.CommentRepository;
 import com.dsmpear.main.user_backend_v2.entity.language.Language;
-import com.dsmpear.main.user_backend_v2.entity.notice.Notice;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
@@ -11,8 +8,6 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportCustomRepositoryImpl;
-import com.dsmpear.main.user_backend_v2.entity.user.User;
-import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
 import com.dsmpear.main.user_backend_v2.exception.ReportNotFoundException;
 import com.dsmpear.main.user_backend_v2.factory.UserFactory;
@@ -48,7 +43,7 @@ public class ReportServiceImpl implements ReportService {
     public Long createReport(ReportRequest request) {
         Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
 
-        request.getLanguages().stream()
+        List<Language> languages = request.getLanguages().stream()
                 .map(language -> languageMapper.requestToEntity(language, report))
                 .collect(Collectors.toList());
 
@@ -85,10 +80,10 @@ public class ReportServiceImpl implements ReportService {
                 .title(report.getTitle())
                 .comments(comments)
                 .languages(report.getLanguages().stream()
-                        .map(language -> language.getLanguage())
+                        .map(Language::getLanguage)
                         .collect(Collectors.toList()))
                 .member(report.getMembers().stream()
-                        .map(member -> memberMapper.entityToResponse(member))
+                        .map(memberMapper::entityToResponse)
                         .collect(Collectors.toList()))
                 .build();
     }
@@ -98,7 +93,7 @@ public class ReportServiceImpl implements ReportService {
         Page<Report> reportResponses = reportCustomRepository.findAllByAccessAndGradeAndFieldAndType(grade, field, type, pageable);
 
         return ReportListResponse.builder()
-                .reportResponses(reportResponses.map(report -> reportMapper.entityToResponse(report)).toList())
+                .reportResponses(reportResponses.map(reportMapper::entityToResponse).toList())
                 .totalElements(reportResponses.getTotalElements())
                 .totalPages(reportResponses.getTotalPages())
                 .build();
