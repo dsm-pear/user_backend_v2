@@ -61,31 +61,19 @@ public class ReportServiceImpl implements ReportService {
                         commentMapper.entityToResponse(comment, comment.getUser().equals(userFactory.createAuthUser())))
                 .collect(Collectors.toList());
 
+        List<String> languages = report.getLanguages().stream()
+                .map(Language::getLanguage)
+                .collect(Collectors.toList());
+
+        List<MemberResponse> members = report.getMembers().stream()
+                .map(memberMapper::entityToResponse)
+                .collect(Collectors.toList());
+
         if(isAccessable(report)) {
             throw new InvalidAccessException();
         }
 
-        return ReportContentResponse.builder()
-                .access(report.getReportType().getAccess())
-                .comment(report.getComment())
-                .createdAt(report.getCreatedAt())
-                .description(report.getDescription())
-                .field(report.getReportType().getField())
-                .grade(report.getReportType().getGrade())
-                .fileId(report.getReportFile().getId())
-                .type(report.getReportType().getType())
-                .fileName(report.getReportFile().getFileName())
-                .isMine(isMine(report))
-                .teamName(report.getTeamName())
-                .title(report.getTitle())
-                .comments(comments)
-                .languages(report.getLanguages().stream()
-                        .map(Language::getLanguage)
-                        .collect(Collectors.toList()))
-                .member(report.getMembers().stream()
-                        .map(memberMapper::entityToResponse)
-                        .collect(Collectors.toList()))
-                .build();
+        return reportMapper.entityToContentResponse(report, isMine(report), languages, comments, members);
     }
 
     @Override

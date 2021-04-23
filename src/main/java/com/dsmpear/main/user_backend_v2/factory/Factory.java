@@ -9,8 +9,4 @@ import java.util.Optional;
 
 public interface Factory<R extends CrudRepository, T extends Object> {
     T create(String value);
-
-//    default Optional<T> created(String value, R repository) {
-//        return repository.findById(value);
-//    }
 }
