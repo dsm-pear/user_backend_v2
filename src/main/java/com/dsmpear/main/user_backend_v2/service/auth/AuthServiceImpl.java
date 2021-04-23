@@ -4,8 +4,10 @@ import com.dsmpear.main.user_backend_v2.entity.refreshtoken.RefreshToken;
 import com.dsmpear.main.user_backend_v2.entity.refreshtoken.RefreshTokenRepository;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
+import com.dsmpear.main.user_backend_v2.exception.InvalidTokenException;
 import com.dsmpear.main.user_backend_v2.exception.UserNotFoundException;
 import com.dsmpear.main.user_backend_v2.payload.request.SignInRequest;
+import com.dsmpear.main.user_backend_v2.payload.response.AccessTokenResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.TokenResponse;
 import com.dsmpear.main.user_backend_v2.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,4 +52,18 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
     }
+
+    @Override
+    @Transactional
+    public AccessTokenResponse tokenRefresh(String token) {
+        if (jwtTokenProvider.isRefreshToken(token)) throw new InvalidTokenException();
+
+        return refreshTokenRepository.findByRefreshToken(token)
+                .map(refreshToken -> refreshToken.update(refreshExp))
+                .map(refreshToken -> jwtTokenProvider.generateAccessToken(refreshToken.getEmail()))
+                .map(accessToken -> new AccessTokenResponse(accessToken))
+                .orElseThrow(InvalidTokenException::new);
+    }
+
+
 }
