@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    private final ReportRepository reportRepository;
     private final CommentRepository commentRepository;
     private final UserFactory userFactory;
     private final CommentMapper commentMapper;
