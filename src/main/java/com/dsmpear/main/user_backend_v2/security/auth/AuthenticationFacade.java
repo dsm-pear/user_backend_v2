@@ -13,7 +13,7 @@ public class AuthenticationFacade {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public String getUser() {
+    public String getEmail() {
         return this.getAuthentication().getName();
     }
 
