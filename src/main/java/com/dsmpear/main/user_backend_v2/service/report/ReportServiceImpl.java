@@ -112,6 +112,7 @@ public class ReportServiceImpl implements ReportService {
         if(isMine(report)) throw new InvalidAccessException();
         report.update(request);
         report.getReportType().update(request);
+        return reportId;
     }
 
     @Override
