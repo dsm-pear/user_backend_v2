@@ -30,7 +30,4 @@ public class Notice extends BaseEntity {
     @Column(length = 50, name = "file_name")
     private String fileName;
 
-    @Column(nullable = false, name = "created_at")
-    private LocalDateTime createdAt;
-
 }
