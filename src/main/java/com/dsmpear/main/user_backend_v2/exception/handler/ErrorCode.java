@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum ErrorCode {
     INVALID_TOKEN(400, "AUTH400-0", "Invalid Token"),
     USER_NOT_FOUND(404, "USER404-0", "User Not Found"),
+    USER_CANNOT_ACCESS(401, "USER401-0", "User Cannot Access"),
     NOTICE_NOT_FOUND(404, "NOTICE404-0","Notice Not Found");
 
     private final int status;
