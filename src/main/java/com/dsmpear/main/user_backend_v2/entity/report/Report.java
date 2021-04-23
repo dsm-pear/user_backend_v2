@@ -6,6 +6,7 @@ import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
 import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
+import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -69,18 +70,12 @@ public class Report extends BaseEntity {
     @JsonBackReference
     private List<Comment> comments;
 
-    /*public Report update(ReportRequest reportRequest) {
+    public void update(ReportRequest reportRequest) {
         this.title = reportRequest.getTitle();
         this.description = reportRequest.getDescription();
-        this.languages = reportRequest.getLanguages();
-        this.type = reportRequest.getType();
-        this.access = reportRequest.getAccess();
-        this.field = reportRequest.getField();
-        this.grade = reportRequest.getGrade();
         this.isSubmitted = reportRequest.getIsSubmitted();
-        this.fileName = reportRequest.getFileName();
         this.github = reportRequest.getGithub();
-        return this;
-    }*/
+        this.teamName = reportRequest.getTeamName();
+    }
 
 }

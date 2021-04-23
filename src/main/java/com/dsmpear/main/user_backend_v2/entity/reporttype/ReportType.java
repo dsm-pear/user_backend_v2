@@ -3,6 +3,7 @@ package com.dsmpear.main.user_backend_v2.entity.reporttype;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.*;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
+import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,4 +42,11 @@ public class ReportType {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Type type;
+
+    public void update(ReportRequest request) {
+        this.access = request.getAccess();
+        this.grade = request.getGrade();
+        this.field = request.getField();
+        this.type = request.getType();
+    }
 }
