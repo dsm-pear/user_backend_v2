@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -23,15 +24,14 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public ReportListResponse searchReport(Pageable pageable, String title) {
-        List<ReportResponse> reportResponses = new ArrayList<>();
         Page<Report> reportPage = reportRepository.findAllByReportTypeAccessEveryAndIsAcceptedTrueAndIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(title, pageable);
 
-        reportPage
-                .map(report -> reportMapper.entityToResponse(report))
-                .map(reportResponse -> reportResponses.add(reportResponse))
-                .map(response -> ReportListResponse.builder()
-                        .reportResponses(reportResponses)
-                        .totalPages(reportPage.getTotalPages())
-                        .totalElements(reportPage.getTotalElements()));
+        return ReportListResponse.builder()
+                .totalElements(reportPage.getTotalElements())
+                .totalPages(reportPage.getTotalPages())
+                .reportResponses(reportPage
+                        .map(report -> reportMapper.entityToResponse(report))
+                        .stream().collect(Collectors.toList()))
+                .build();
     }
 }
