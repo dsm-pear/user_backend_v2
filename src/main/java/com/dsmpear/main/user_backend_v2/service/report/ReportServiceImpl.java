@@ -106,7 +106,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public void updateReport(Long reportId, ReportRequest request) {
+    public Long updateReport(Long reportId, ReportRequest request) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(ReportNotFoundException::new);
         if(isMine(report)) throw new InvalidAccessException();

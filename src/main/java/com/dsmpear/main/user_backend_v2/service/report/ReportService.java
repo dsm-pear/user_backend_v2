@@ -16,7 +16,7 @@ public interface ReportService {
 
     ReportListResponse getReportList(Pageable pageable, Type type, Field field, Grade grade);
 
-    void updateReport(Long reportId, ReportRequest request);
+    Long updateReport(Long reportId, ReportRequest request);
 
     Long deleteReport(Long reportId);
 }
