@@ -25,7 +25,7 @@ public class Report extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -33,8 +33,9 @@ public class Report extends BaseEntity {
     @Column(nullable = false)
     private String description;
 
+    @Builder.Default
     @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted;
+    private Boolean isAccepted = false;
 
     @Column(name = "is_submitted", nullable = false)
     private Boolean isSubmitted;
@@ -56,11 +57,11 @@ public class Report extends BaseEntity {
     @JsonBackReference
     private List<Language> languages;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "report", fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "report", fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Member> members;
 
-    @OneToOne(mappedBy = "report", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "report", fetch = FetchType.LAZY)
     @JsonBackReference
     private ReportFile reportFile;
 

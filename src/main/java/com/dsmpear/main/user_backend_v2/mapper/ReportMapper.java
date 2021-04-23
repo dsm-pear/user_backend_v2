@@ -4,10 +4,12 @@ import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.response.ReportResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import javax.persistence.MapsId;
 import java.util.List;
 
 @Mapper(config = MapStructConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -22,4 +24,7 @@ public interface ReportMapper {
     @Mapping(target = "reportType.grade", source = "request.grade")
     @Mapping(target = "languages", ignore = true)
     Report requestToEntity(ReportRequest request, User user);
+
+    @Mapping(source = "report.reportType.type", target = "type")
+    ReportResponse entityToResponse(Report report);
 }

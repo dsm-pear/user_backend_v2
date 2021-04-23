@@ -10,13 +10,13 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileReportListResponse extends PageResponse{
+public class ProfileReportsResponse extends PageResponse{
 
     private List<ProfileReportResponse> profileReportResponses;
     private List<MyPageReportResponse> myPageReportResponses;
 
     @Builder
-    public ProfileReportListResponse(Long totalElements, int totalPages, List<ProfileReportResponse> profileReportResponses, List<MyPageReportResponse> myProfileReportResponses) {
+    public ProfileReportsResponse(Long totalElements, int totalPages, List<ProfileReportResponse> profileReportResponses, List<MyPageReportResponse> myProfileReportResponses) {
         super(totalElements, totalPages);
         this.profileReportResponses = profileReportResponses;
         this.myPageReportResponses = myProfileReportResponses;

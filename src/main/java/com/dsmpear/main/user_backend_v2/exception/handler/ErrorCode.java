@@ -11,7 +11,8 @@ public enum ErrorCode {
     INVALID_TOKEN(400, "AUTH400-0", "Invalid Token"),
     USER_NOT_FOUND(404, "USER404-0", "User Not Found"),
     REPORT_NOT_FOUND(404, "REPORT404-0", "Report Not Found"),
-    INVALID_ACCESS(401, "REPORT401-0", "Invalid Access");
+    INVALID_ACCESS(401, "REPORT401-0", "Invalid Access"),
+    NOTICE_NOT_FOUND(404, "NOTICE404-0","Notice Not Found");
 
     private final int status;
     private final String code;
