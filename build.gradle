@@ -29,6 +29,9 @@ dependencies {
 	// spring boot starter web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// spring boot starter app
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 	// spring mail
 	compile("org.springframework.boot:spring-boot-starter-mail")
 
@@ -49,14 +52,6 @@ dependencies {
 
 	compileOnly "org.mapstruct:mapstruct:1.4.0.Final", "org.projectlombok:lombok:1.18.8"
 	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.0.Final", "org.projectlombok:lombok:1.18.8"
-//
-//	// lombok
-//	compile "org.projectlombok:lombok:1.18.8"
-//	annotationProcessor("org.projectlombok:lombok:1.18.8")
-//
-//	// mapStruct
-//	compileOnly "org.mapstruct:mapstruct:1.4.0.Final"
-//	annotationProcessor "org.mapstruct:mapstruct-processor:1.4.0.Final"
 
 	// validation (For using @Valid Annotation)
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
