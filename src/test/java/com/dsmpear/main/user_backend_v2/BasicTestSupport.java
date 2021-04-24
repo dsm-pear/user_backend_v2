@@ -3,6 +3,8 @@ package com.dsmpear.main.user_backend_v2;
 import com.dsmpear.main.user_backend_v2.entity.comment.CommentRepository;
 import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.language.LanguageRepository;
+import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.notice.NoticeRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
@@ -46,6 +48,9 @@ public class BasicTestSupport {
 
     @Autowired
     private LanguageRepository languageRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -103,6 +108,13 @@ public class BasicTestSupport {
                             .build()
             );
         }
+
+        memberRepository.save(
+                Member.builder()
+                        .report(report)
+                        .user(createUser("test@dsm.hs.kr"))
+                        .build()
+        );
 
         return report;
     }
