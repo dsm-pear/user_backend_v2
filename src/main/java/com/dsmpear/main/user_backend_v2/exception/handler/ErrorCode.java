@@ -17,6 +17,7 @@ public enum ErrorCode {
     REPORT_NOT_FOUND(404, "REPORT404-0", "Report Not Found"),
     INVALID_ACCESS(401, "REPORT401-0", "Invalid Access"),
     COMMENT_NOT_FOUND(404, "REPORT404-0","Report Not Found"),
+    REPORT_ALREADY_SUBMITTED(400,"REPORT400-1", "Report Already Submitted"),
   
     NOTICE_NOT_FOUND(404, "NOTICE404-0","Notice Not Found"),
     
