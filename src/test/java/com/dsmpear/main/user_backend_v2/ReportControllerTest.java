@@ -10,6 +10,7 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -163,6 +164,4 @@ public class ReportControllerTest {
         mvc.perform(delete("/report/"+successReport.getId()))
                 .andExpect(status().isUnauthorized());
     }
-
-
 }

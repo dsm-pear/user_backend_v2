@@ -16,6 +16,7 @@ import java.util.List;
 @Mapper(config = MapStructConfig.class)
 public interface CommentMapper {
     @Mapping(source = "report", target = "report")
+    @Mapping(target = "id", ignore = true)
     Comment requestToEntity(CommentRequest commentRequest, Report report, User user);
 
     @Mapping(source = "comment.id", target = "commentId")

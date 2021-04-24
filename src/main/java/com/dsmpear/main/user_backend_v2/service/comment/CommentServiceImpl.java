@@ -26,9 +26,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void createComment(CommentRequest request, Long reportId) {
-        commentRepository.save(
-                commentMapper.requestToEntity(request, reportFactory.create(reportId.toString()), userFactory.createAuthUser())
-        );
+        Comment comment = commentMapper.requestToEntity(request, reportFactory.create(reportId.toString()), userFactory.createAuthUser());
+        commentRepository.save(comment);
     }
 
     @Override
@@ -50,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private void validateAccess(Comment comment) {
-        if(comment.getUser().equals(userFactory.createAuthUser()))
+        if(!comment.getUser().equals(userFactory.createAuthUser()))
             throw new InvalidAccessException();
     }
 }
