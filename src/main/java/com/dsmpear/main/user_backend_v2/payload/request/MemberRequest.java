@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberRequest {
 
-    private Integer reportId;
+    private Long reportId;
 
     private String userEmail;
 
