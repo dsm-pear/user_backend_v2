@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReportResponse {
 
-    private Integer reportId;
+    private Long reportId;
 
     private LocalDateTime createdAt;
 

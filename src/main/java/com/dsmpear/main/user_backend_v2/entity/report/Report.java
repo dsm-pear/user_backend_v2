@@ -4,6 +4,10 @@ import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
 import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
 import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,7 +29,7 @@ public class Report extends BaseEntity {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
