@@ -88,7 +88,7 @@ public class ReportControllerTest {
                 .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
-        Report report = reportRepository.findAll().get(4);
+        Report report = reportRepository.findAllBy().get(4);
 
         Assertions.assertEquals(report.getTitle(), "new title");
         Assertions.assertEquals(report.getReportType().getType(), Type.TEAM);
