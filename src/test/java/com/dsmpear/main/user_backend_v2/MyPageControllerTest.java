@@ -38,6 +38,9 @@ class MyPageControllerTest {
     private MemberRepository memberRepository;
 
     @Autowired
+    private ReportRepository reportRepository;
+
+    @Autowired
     private BasicTestSupport basicTestSupport;
 
     private MockMvc mvc;
@@ -53,6 +56,7 @@ class MyPageControllerTest {
 
     @AfterEach
     public void after() {
+        reportRepository.deleteAll();
         memberRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -68,7 +72,7 @@ class MyPageControllerTest {
     @WithMockUser(value = "tset@dsm.hs.kr", password = "1111")
     public void getMyProfile_tset() throws Exception {
         mvc.perform(get("/user/profile"))
-                .andExpect(status().isOk());
+                .andExpect(status().isNotFound());
     }
 
     @Test
