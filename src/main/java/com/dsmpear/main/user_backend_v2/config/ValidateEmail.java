@@ -1,6 +1,7 @@
 package com.dsmpear.main.user_backend_v2.config;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
@@ -9,4 +10,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidateEmail {
     String message() default "email in invalid";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
 }

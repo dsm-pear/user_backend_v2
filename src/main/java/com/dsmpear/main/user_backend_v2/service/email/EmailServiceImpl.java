@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Random;
 
@@ -37,7 +38,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendNotification(NotificationRequest request, String secretKey) {
-        if(!passwordEncoder.matches(secretKey, this.secretKey)) throw new SecretKeyMismatchException();
+
+
+        if (!passwordEncoder.matches(secretKey, this.secretKey)) throw new SecretKeyMismatchException();
 
         try {
             final MimeMessagePreparator preparator = mimeMessage -> {

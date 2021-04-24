@@ -2,6 +2,7 @@ package com.dsmpear.main.user_backend_v2.service.search;
 
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.mapper.ReportMapper;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportListResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportResponse;
@@ -24,7 +25,7 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     public ReportListResponse searchReport(Pageable pageable, String title) {
-        Page<Report> reportPage = reportRepository.findAllByReportTypeAccessEveryAndIsAcceptedTrueAndIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(title, pageable);
+        Page<Report> reportPage = reportRepository.findAllByReportTypeAccessAndIsAcceptedTrueAndIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(Access.EVERY, title, pageable);
 
         return ReportListResponse.builder()
                 .totalElements(reportPage.getTotalElements())
