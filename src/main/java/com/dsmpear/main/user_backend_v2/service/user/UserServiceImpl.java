@@ -7,11 +7,18 @@ import com.dsmpear.main.user_backend_v2.entity.verifyuser.VerifyUser;
 import com.dsmpear.main.user_backend_v2.entity.verifyuser.VerifyUserRepository;
 import com.dsmpear.main.user_backend_v2.exception.NumberNotFoundException;
 import com.dsmpear.main.user_backend_v2.exception.UserAlreadyExist;
+import com.dsmpear.main.user_backend_v2.exception.UserCannotAccessException;
 import com.dsmpear.main.user_backend_v2.payload.request.EmailVerifyRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.RegisterRequest;
+import com.dsmpear.main.user_backend_v2.payload.response.UserResponse;
+import com.dsmpear.main.user_backend_v2.payload.response.UsersResponse;
+import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private final VerifyUserRepository verifyUserRepository;
     private final VerifyNumberRepository verifyNumberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public void register(RegisterRequest request) {
@@ -45,4 +54,29 @@ public class UserServiceImpl implements UserService {
                 .map(verifyNumber -> verifyUserRepository.save(new VerifyUser(request.getEmail())))
                 .orElseThrow(NumberNotFoundException::new);
     }
+
+    @Override
+    public UsersResponse getUserList(String name) {
+        if(!authenticationFacade.isLogin()) {
+            throw new UserCannotAccessException();
+        }
+
+        List<User> users = userRepository.findAllByAuthStatusIsTrueAndNameContainingOrderByName(name);
+        List<UserResponse> userResponses = new ArrayList<>();
+
+        for(User user : users) {
+            userResponses.add(
+                    UserResponse.builder()
+                            .email(user.getEmail())
+                            .name(user.getName())
+                            .build()
+            );
+        }
+
+        return UsersResponse.builder()
+                .totalElements(users.size())
+                .userResponses(userResponses)
+                .build();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.dsmpear.main.user_backend_v2.controller;
 
 import com.dsmpear.main.user_backend_v2.payload.response.ReportListResponse;
+import com.dsmpear.main.user_backend_v2.payload.response.SearchProfileResponse;
 import com.dsmpear.main.user_backend_v2.service.search.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SearchController {
 
     private final SearchService searchService;
+
+    @GetMapping("/profile")
+    public SearchProfileResponse searchProfile(@RequestParam("keyword") String keyword,
+                                               Pageable page) {
+        return searchService.searchProfile(keyword,page);
+    }
 
     @GetMapping("/report")
     public ReportListResponse reportListResponse(@RequestParam("keyword") String keyword,

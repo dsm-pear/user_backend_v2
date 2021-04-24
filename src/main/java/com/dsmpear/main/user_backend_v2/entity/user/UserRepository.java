@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, String> {
     Optional<User> findByEmail(String email);
-    Page<User> findAllByNameContainsOrderByName(String name, Pageable page);
-    List<User> findAllByNameContainsAndAuthStatusOrderByName(String name, boolean authStatus);
+    List<User> findAllByAuthStatusIsTrueAndNameContainingOrderByName(String name);
+    Page<User> findAllByNameContainingAndAuthStatusIsTrueOrderByName(String name, Pageable page);
 }
