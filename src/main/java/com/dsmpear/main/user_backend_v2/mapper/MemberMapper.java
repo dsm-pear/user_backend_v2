@@ -1,6 +1,8 @@
 package com.dsmpear.main.user_backend_v2.mapper;
 
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.report.Report;
+import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.payload.request.MemberRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.MemberResponse;
 import org.mapstruct.Mapper;
@@ -12,4 +14,8 @@ public interface MemberMapper {
     @Mapping(source = "member.user.email", target = "memberEmail")
     @Mapping(source = "member.id", target = "memberId")
     MemberResponse entityToResponse(Member member);
+
+    @Mapping(source = "report", target = "report")
+    @Mapping(source = "user", target = "user")
+    Member getEntity(User user, Report report);
 }

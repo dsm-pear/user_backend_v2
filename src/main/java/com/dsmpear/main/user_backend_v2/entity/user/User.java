@@ -4,6 +4,7 @@ import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,11 +40,11 @@ public class User {
     private Boolean authStatus;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Member> member;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Comment> comments;
 
     public void authenticatedSuccess() {

@@ -22,7 +22,7 @@ public class ReportCustomRepositoryImpl {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public Page<Report> findAllByAccessAndGradeAndFieldAndType(Access access, Grade grade, Field field, Type type, Pageable pageable) {
+    public Page<Report> findAllByAccessAndGradeAndFieldAndType(Grade grade, Field field, Type type, Pageable pageable) {
         QueryResults<Report> results = jpaQueryFactory
                 .select(report)
                 .from(report)
@@ -30,7 +30,7 @@ public class ReportCustomRepositoryImpl {
                         .and(report.isAccepted.eq(true)))
                 .where(eqGrade(grade)
                         .and(eqType(type))
-                        .and(eqAccess(access))
+                        .and(eqAccess(Access.EVERY))
                         .and(eqField(field)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

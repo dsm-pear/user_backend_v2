@@ -14,7 +14,7 @@ public class AuthenticationFacade {
     }
 
     public String getEmail() {
-        return this.getAuthentication().getName();
+        return this.getAuthentication() == null ? "" : this.getAuthentication().getName();
     }
 
     public boolean isLogin() {

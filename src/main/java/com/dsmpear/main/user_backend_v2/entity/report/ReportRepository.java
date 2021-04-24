@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.report;
 
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import org.springframework.data.domain.Page;
@@ -17,5 +18,5 @@ public interface ReportRepository extends CrudRepository<Report,Long> {
     Optional<Report> findById(Long reportId);
 
     //제목 검색 ORM
-//    Page<Report> findAllByReportTypeAccessAndIsAcceptedTrueAndIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(Access access, String title, Pageable page);
+    Page<Report> findAllByReportTypeAccessAndIsAcceptedTrueAndIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(Access access, String title, Pageable page);
 }
