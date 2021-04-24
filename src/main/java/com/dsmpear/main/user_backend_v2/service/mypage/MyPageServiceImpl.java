@@ -65,7 +65,7 @@ public class MyPageServiceImpl implements MyPageService {
                             .title(report.getTitle())
                             .createdAt(report.getCreatedAt())
                             .type(report.getReportType().getType())
-                            .isRejected(!report.getComment().isEmpty())
+                            .isRejected(report.getComment() != null)
                             .isAccepted(report.getIsAccepted())
                             .isSubmitted(report.getIsSubmitted())
                             .build()
