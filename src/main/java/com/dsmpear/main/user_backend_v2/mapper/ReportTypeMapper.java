@@ -9,6 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(config = MapStructConfig.class)
 public interface ReportTypeMapper {
 
+    @Mapping(target = "report", source = "report")
     @Mapping(target = "reportId", ignore = true)
     ReportType requestToEntity(ReportRequest request, Report report);
 }
