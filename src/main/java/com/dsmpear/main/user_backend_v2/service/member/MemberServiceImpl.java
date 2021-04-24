@@ -11,8 +11,7 @@ import com.dsmpear.main.user_backend_v2.payload.request.MemberRequest;
 import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.web.client.HttpClientErrorException;
 
 
 @RequiredArgsConstructor
@@ -31,6 +30,10 @@ public class MemberServiceImpl implements MemberService {
 
         Report report = reportRepository.findById(memberRequest.getReportId())
                 .orElseThrow(ReportNotFoundException::new);
+
+        if(report.getIsSubmitted()) { //보고서가 이미 제출된 상태라면 멤버 수정 불가
+            throw new ReportAlreadySubmittedException();
+        }
 
         memberRepository.findByReportAndUser(report, user)
                 .orElseThrow(UserNotMemberException::new);
@@ -59,6 +62,10 @@ public class MemberServiceImpl implements MemberService {
 
         Report report = reportRepository.findById(member.getReport().getId())
                 .orElseThrow(ReportNotFoundException::new);
+
+        if(report.getIsSubmitted()) { //보고서가 이미 제출된 상태라면 멤버 수정 불가
+            throw new ReportAlreadySubmittedException();
+        }
 
         //삭제 요청을 한 유저가 이 보고서의 멤버인지 확인하기
         memberRepository.findByReportAndUser(report, user)
