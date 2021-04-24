@@ -57,7 +57,7 @@ public class ReportControllerTest {
         basicTestSupport.createReport("title_for_every", true, true, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", false, true, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", false, false, Access.EVERY);
-        Report report = basicTestSupport.createReport("title_for_not_shown", true, true, Access.ADMIN);
+        basicTestSupport.createReport("title_for_not_shown", true, true, Access.ADMIN);
     }
 
     @AfterEach
