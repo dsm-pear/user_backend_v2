@@ -98,7 +98,7 @@ public class BasicTestSupport {
             );
         }
 
-
+        addMember(report, "test@dsm.hs.kr");
 
         return report;
     }
