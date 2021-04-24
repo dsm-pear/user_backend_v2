@@ -14,7 +14,7 @@ public class ReportFactory implements Factory<ReportRepository, Report> {
 
     @Override
     public Report create(String value) {
-        return reportRepository.findById(Integer.parseInt(value))
+        return reportRepository.findById(Long.parseLong(value))
                 .orElseThrow(ReportNotFoundException::new);
     }
 }
