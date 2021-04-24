@@ -27,7 +27,8 @@ public enum ErrorCode {
 
     MEMBER_NOT_FOUND(404, "MEMBER404-0", "Member Not Found"),
     USER_NOT_MEMBER(403, "MEMBER403-0","User Not Member of this report"),
-    USER_EQUAL_MEMBER(400,"MEMBER400-0", "User Equals Member");
+    USER_EQUAL_MEMBER(400,"MEMBER400-0", "User Equals Member"),
+    USER_ALREADY_MEMBER(409, "MEMBER409-0", "User already Include this report as Member");
     
 
 
