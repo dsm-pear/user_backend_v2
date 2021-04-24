@@ -4,16 +4,19 @@ import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
 import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
+import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
 import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
 import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -48,26 +51,30 @@ public class Report extends BaseEntity {
 
     private String github;
 
-
     //  관계매핑
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy ="report", fetch = FetchType.EAGER)
-    @JsonBackReference
+    @Setter
+    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy ="report", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private ReportType reportType;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "report", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<Language> languages;
+    // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
+    @Setter
+    @Builder.Default
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "report", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Language> languages = new ArrayList<>();
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "report", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private List<Member> members;
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "report", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Member> members = new ArrayList<>();
 
     @OneToOne(mappedBy = "report", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private ReportFile reportFile;
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Comment> comments;
 
     public void update(ReportRequest reportRequest) {
@@ -78,4 +85,11 @@ public class Report extends BaseEntity {
         this.teamName = reportRequest.getTeamName();
     }
 
+    public void addMember(Member member) {
+        this.members.add(member);
+    }
+
+    public void addLanguage(Language language) {
+        this.languages.add(language);
+    }
 }

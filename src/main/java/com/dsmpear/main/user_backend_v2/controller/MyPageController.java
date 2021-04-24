@@ -2,6 +2,7 @@ package com.dsmpear.main.user_backend_v2.controller;
 
 import com.dsmpear.main.user_backend_v2.payload.request.SetSelfIntroRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfilePageResponse;
+import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
 import com.dsmpear.main.user_backend_v2.service.mypage.MyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -26,9 +27,8 @@ public class MyPageController {
         myPageService.setSelfIntro(request.getIntro(), request.getGithub());
     }
 
-    /*@GetMapping("/report")
-    public ProfileReportListResponse getReport(Pageable page){
-        return myPageReportService.getReport(page);
+    @GetMapping("/report")
+    public ProfileReportsResponse getReport(Pageable page){
+        return myPageService.getReport(page);
     }
-*/
 }

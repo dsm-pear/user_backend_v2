@@ -1,6 +1,7 @@
 package com.dsmpear.main.user_backend_v2.entity.reportfile;
 
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +29,7 @@ public class ReportFile {
     private String fileName;
 
     @OneToOne
-    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn(name = "report_id")
     private Report report;
 }
