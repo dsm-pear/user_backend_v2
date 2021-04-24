@@ -1,6 +1,8 @@
 package com.dsmpear.main.user_backend_v2.service.report;
 
 import com.dsmpear.main.user_backend_v2.entity.language.Language;
+import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
@@ -40,14 +42,16 @@ public class ReportServiceImpl implements ReportService {
     private final MemberMapper memberMapper;
 
     @Override
+    @Transactional
     public Long createReport(ReportRequest request) {
         Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
 
-        List<Language> languages = request.getLanguages().stream()
+        request.getLanguages().stream()
                 .map(language -> languageMapper.requestToEntity(language, report))
-                .collect(Collectors.toList());
+                .forEach(language -> report.addLanguage(language));
 
-        reportTypeMapper.requestToEntity(request, report);
+        report.setReportType(reportTypeMapper.requestToEntity(request, report));
+        report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
 
         return reportRepository.save(report).getId();
     }
