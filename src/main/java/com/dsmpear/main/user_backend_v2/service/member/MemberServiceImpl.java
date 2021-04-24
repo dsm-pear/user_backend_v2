@@ -12,6 +12,8 @@ import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -25,17 +27,32 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void addMember(MemberRequest memberRequest) {
+        User user = getUser();
+
+        Report report = reportRepository.findById(memberRequest.getReportId())
+                .orElseThrow(ReportNotFoundException::new);
+
+        memberRepository.findByReportAndUser(report, user)
+                .orElseThrow(UserNotMemberException::new);
+
+        User requestedUser = userRepository.findById(memberRequest.getUserEmail())
+                .orElseThrow(UserNotMemberException::new);
+
+        memberRepository.findByReportAndUser(report, requestedUser)
+                .ifPresent(member -> {throw new UserAlreadyIncludeAsMemberException();});
+
+        memberRepository.save(
+                Member.builder()
+                        .user(requestedUser)
+                        .report(report)
+                        .build()
+        );
 
     }
 
     @Override
     public void deleteMember(Integer memberId) {
-        if(!authenticationFacade.isLogin()) {
-            throw new UserCannotAccessException();
-        }
-
-        User user = userRepository.findById(authenticationFacade.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = getUser();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -52,6 +69,15 @@ public class MemberServiceImpl implements MemberService {
             throw new UserEqualsMemberException();
         }
         memberRepository.delete(member);
+    }
+
+    private User getUser() {
+        if(!authenticationFacade.isLogin()) {
+            throw new UserCannotAccessException();
+        }
+
+        return userRepository.findById(authenticationFacade.getEmail())
+                .orElseThrow(UserNotFoundException::new);
     }
 
 }
