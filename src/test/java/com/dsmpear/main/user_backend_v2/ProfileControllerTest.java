@@ -101,7 +101,7 @@ class ProfileControllerTest {
 
         ProfileReportsResponse response = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(result.getResponse().getContentAsString(), ProfileReportsResponse.class);
 
-        Assertions.assertEquals(response.getTotalElements(), 1L);
+        Assertions.assertEquals(response.getTotalElements(), 2L);
     }
 
     @Test
