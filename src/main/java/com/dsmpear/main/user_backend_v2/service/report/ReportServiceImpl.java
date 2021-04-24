@@ -33,7 +33,6 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
     private final ReportCustomRepositoryImpl reportCustomRepository;
     private final UserFactory userFactory;
-    private final AuthenticationFacade authenticationFacade;
 
     private final ReportMapper reportMapper;
     private final ReportTypeMapper reportTypeMapper;
@@ -73,7 +72,7 @@ public class ReportServiceImpl implements ReportService {
                 .map(memberMapper::entityToResponse)
                 .collect(Collectors.toList());
 
-        if(isAccessable(report)) {
+        if(!isAccessable(report)) {
             throw new InvalidAccessException();
         }
 
@@ -96,7 +95,7 @@ public class ReportServiceImpl implements ReportService {
     public Long updateReport(Long reportId, ReportRequest request) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(ReportNotFoundException::new);
-        if(isMine(report)) throw new InvalidAccessException();
+        if(!isMine(report)) throw new InvalidAccessException();
         report.update(request);
         report.getReportType().update(request);
         return reportId;
@@ -106,7 +105,7 @@ public class ReportServiceImpl implements ReportService {
     public Long deleteReport(Long reportId) {
         Report report = reportRepository.findById(reportId)
                 .orElseThrow(ReportNotFoundException::new);
-        isMine(report);
+        if(!isMine(report)) throw new InvalidAccessException();
         reportRepository.delete(report);
         return reportId;
     }
@@ -116,7 +115,6 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private boolean isMine(Report report) {
-        if(authenticationFacade.isLogin()) return false;
         return report.getMembers().stream()
                 .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
     }
