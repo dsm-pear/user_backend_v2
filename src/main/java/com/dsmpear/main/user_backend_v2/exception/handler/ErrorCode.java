@@ -23,7 +23,11 @@ public enum ErrorCode {
     EMAIL_SEND_FAIL(500, "EMAIL500-0", "Email Send Failed"),
     SECRET_KEY_MISMATCH(403, "EMAIL403-0","Secret Key Mismatch"),
   
-    NUMBER_NOT_FOUND(404, "NUMBER404-0","Number Not Found");
+    NUMBER_NOT_FOUND(404, "NUMBER404-0","Number Not Found"),
+
+    MEMBER_NOT_FOUND(404, "MEMBER404-0", "Member Not Found"),
+    USER_NOT_MEMBER(403, "MEMBER403-0","User Not Member of this report"),
+    USER_EQUAL_MEMBER(400,"MEMBER400-0", "User Equals Member");
     
 
 
