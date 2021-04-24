@@ -50,11 +50,8 @@ public class User {
         this.authStatus = true;
     }
 
-    public void setSelfIntro(String intro){
+    public void updateInfo(String intro, String gitHub){
         this.selfIntro = intro;
-    }
-
-    public void setGitHub(String gitHub){
         this.gitHub = gitHub;
     }
 
