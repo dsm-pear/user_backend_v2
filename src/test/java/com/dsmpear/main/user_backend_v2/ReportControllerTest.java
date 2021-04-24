@@ -57,7 +57,7 @@ public class ReportControllerTest {
         basicTestSupport.createReport("title_for_every", true, true, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", false, true, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", false, false, Access.EVERY);
-        Report report = basicTestSupport.createReport("title_for_not_shown", true, true, Access.ADMIN);
+        basicTestSupport.createReport("title_for_not_shown", true, true, Access.ADMIN);
     }
 
     @AfterEach
@@ -92,5 +92,27 @@ public class ReportControllerTest {
 
         Assertions.assertEquals(report.getTitle(), "new title");
         Assertions.assertEquals(report.getReportType().getType(), Type.TEAM);
+    }
+
+    @Test
+    void 보고서_작성_권한실패() throws Exception {
+        ReportRequest request = ReportRequest.builder()
+                .title("new title")
+                .type(Type.TEAM)
+                .teamName("team")
+                .languages(Arrays.asList("sdf","asdfsa"))
+                .isSubmitted(true)
+                .grade(Grade.GRADE1)
+                .github("sf")
+                .field(Field.WEB)
+                .description("description")
+                .access(Access.EVERY)
+                .description("description")
+                .build();
+
+        mvc.perform(post("/report")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(basicTestSupport.writeValueAsString(request)))
+                .andExpect(status().isNotFound());
     }
 }
