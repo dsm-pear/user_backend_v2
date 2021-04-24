@@ -5,6 +5,7 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
+import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -37,10 +38,23 @@ public class ReportCustomRepositoryImpl {
                 .orderBy(report.id.desc())
                 .fetchResults();
 
-
-
-
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    public Page<Report> findAllByMembersContainsAndIsAcceptedAndIsSubmittedTrueAndReportTypeAccessOrderByReportIdDesc(User user, Access access, Pageable page) {
+        QueryResults<Report> results = jpaQueryFactory
+                .select(report)
+                .from(report)
+                .where(report.members.any().user.eq(user)
+                    .and(report.isAccepted.eq(true))
+                    .and(report.isSubmitted.eq(true))
+                    .and(report.reportType.access.eq(access)))
+                .offset(page.getOffset())
+                .limit(page.getPageSize())
+                .orderBy(report.id.desc())
+                .fetchResults();
+
+        return new PageImpl<>(results.getResults(), page, results.getTotal());
     }
 
     private BooleanExpression eqAccess(Access access) {

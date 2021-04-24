@@ -1,13 +1,10 @@
 package com.dsmpear.main.user_backend_v2;
 
-import com.dsmpear.main.user_backend_v2.entity.comment.CommentRepository;
 import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.language.LanguageRepository;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
-import com.dsmpear.main.user_backend_v2.entity.notice.NoticeRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
@@ -18,18 +15,13 @@ import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class BasicTestSupport {
@@ -39,9 +31,6 @@ public class BasicTestSupport {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private ReportRepository reportRepository;
 
     @Autowired
     private ReportTypeRepository reportTypeRepository;
@@ -109,14 +98,18 @@ public class BasicTestSupport {
             );
         }
 
-        memberRepository.save(
-                Member.builder()
-                        .report(report)
-                        .user(createUser("test@dsm.hs.kr"))
-                        .build()
-        );
+
 
         return report;
+    }
+
+    public Member addMember(Report report, String userEmail) {
+        return memberRepository.save(
+                Member.builder()
+                        .report(report)
+                        .user(createUser(userEmail))
+                        .build()
+        );
     }
 
     public <T> String writeValueAsString(T request) throws JsonProcessingException {
