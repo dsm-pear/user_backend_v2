@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ProfileReportResponse {
 
-    private Integer reportId;
+    private Long reportId;
 
     private String title;
 
