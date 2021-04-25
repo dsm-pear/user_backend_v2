@@ -10,5 +10,9 @@ services:
     volumes:
       - /home/hong/projects/user_backend_v2/log:/logs/*.log
     networks:
-      - redis-pear
+      - redis-network
 
+networks:
+  default:
+    external:
+      name: redis-network
