@@ -12,6 +12,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -26,7 +27,7 @@ public class ReportRequest {
     @NotBlank
     private String description;
 
-    private List<String> languages;
+    private List<String> languages = new ArrayList<>();
 
     @NotNull
     private Type type;
