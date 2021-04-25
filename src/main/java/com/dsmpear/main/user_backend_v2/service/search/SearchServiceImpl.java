@@ -28,11 +28,9 @@ public class SearchServiceImpl implements SearchService {
     private final ReportMapper reportMapper;
     private final UserRepository userRepository;
 
-    private final AuthenticationFacade authenticationFacade;
-
     @Override
     public SearchProfileResponse searchProfile(String keyword, Pageable page) {
-        Page<User> users = userRepository.findAllByNameContainingAndAuthStatusIsTrueOrderByName(keyword, page);
+        Page<User> users = userRepository.findAllByNameContainingOrderByName(keyword, page);
         List<UserResponse> userResponses = new ArrayList<>();
 
         for(User user : users) {

@@ -13,10 +13,6 @@ public class AuthDetails implements UserDetails {
 
     private User user;
 
-    public boolean getAuthStatus() {
-        return this.user.getAuthStatus();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return new ArrayList<>();

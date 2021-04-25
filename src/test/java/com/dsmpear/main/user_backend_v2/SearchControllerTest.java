@@ -54,7 +54,6 @@ class SearchControllerTest {
                         .email("test@dsm.hs.kr")
                         .name("홍길동")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .selfIntro("hihihihi")
                         .build()
         );
@@ -63,7 +62,6 @@ class SearchControllerTest {
                         .email("tset@dsm.hs.kr")
                         .name("고길동")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .selfIntro("lalalala")
                         .build()
         );
@@ -72,7 +70,6 @@ class SearchControllerTest {
                         .email("ptest@dsm.hs.kr")
                         .name("김길동")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .selfIntro("lalalala")
                         .build()
         );
@@ -81,7 +78,6 @@ class SearchControllerTest {
                         .email("etest@dsm.hs.kr")
                         .name("이길동")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .selfIntro("lalalala")
                         .build()
         );
