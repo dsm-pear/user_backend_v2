@@ -11,8 +11,12 @@ services:
       - /home/hong/projects/user_backend_v2/log:/logs/*.log
     networks:
       - redis-network
-
+  redis:
+    image: redis
+    container_name: redis-server
+    ports:
+    - "6380:6379"
+    volumes:
+    - /home/hong/projects/user_backend_v2/data
 networks:
-  default:
-    external:
-      name: redis-network
+  redis-network:
