@@ -32,6 +32,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenResponse signIn(SignInRequest request) {
+        User use1r = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        System.out.println(use1r.getEmail());
+        System.out.println(passwordEncoder.matches(request.getPassword(), use1r.getPassword()));
         userRepository.findByEmail(request.getEmail())
                 .filter(user -> passwordEncoder.matches(request.getPassword(), user.getPassword()))
                 .orElseThrow(UserNotFoundException::new);
@@ -58,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
         return refreshTokenRepository.findByRefreshToken(token)
                 .map(refreshToken -> refreshToken.update(refreshExp))
                 .map(refreshToken -> jwtTokenProvider.generateAccessToken(refreshToken.getEmail()))
-                .map(accessToken -> new AccessTokenResponse(accessToken))
+                .map(AccessTokenResponse::new)
                 .orElseThrow(InvalidTokenException::new);
     }
 
