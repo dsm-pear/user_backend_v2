@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(RegisterRequest request) {
         userRepository.findByEmail(request.getEmail())
-                .ifPresentOrElse(
-                        user -> verifyUserRepository.findByEmail(request.getEmail())
+                .ifPresentOrElse(user -> {throw new UserAlreadyExist();},
+                        () -> verifyUserRepository.findByEmail(request.getEmail())
                                 .map(verifyNumber -> userRepository.save(
                                         User.builder()
                                                 .name(request.getName())
@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
                                                 .authStatus(false)
                                                 .password(passwordEncoder.encode(request.getPassword()))
                                                 .build()
-                                )),
-                        UserAlreadyExist::new);
+                                )));
     }
 
     @Override
