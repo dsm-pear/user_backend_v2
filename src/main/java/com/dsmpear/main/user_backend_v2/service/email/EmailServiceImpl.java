@@ -7,6 +7,8 @@ import com.dsmpear.main.user_backend_v2.exception.SecretKeyMismatchException;
 import com.dsmpear.main.user_backend_v2.payload.request.NotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,6 +31,7 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
     private final VerifyNumberRepository verifyNumberRepository;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Value("${server.url}")
     private String url;
@@ -38,7 +41,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendNotification(NotificationRequest request, String secretKey) {
-
 
         if (!passwordEncoder.matches(secretKey, this.secretKey)) throw new SecretKeyMismatchException();
 
@@ -53,6 +55,7 @@ public class EmailServiceImpl implements EmailService {
 
             javaMailSender.send(preparator);
         } catch (Exception e) {
+            logger.error("Notification Mail Send Error" + e.getMessage());
             throw new EmailSendFailException();
         }
     }
@@ -79,7 +82,7 @@ public class EmailServiceImpl implements EmailService {
                             .build()
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Auth Mail Send Failed" + e.getMessage() + "\nsendTo : " + sendTo);
             throw new EmailSendFailException();
         }
     }
