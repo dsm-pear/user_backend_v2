@@ -27,7 +27,7 @@ public class ReportRequest {
     @NotBlank
     private String description;
 
-    private List<String> languages = new ArrayList<>();
+    private List<String> languages;
 
     @NotNull
     private Type type;

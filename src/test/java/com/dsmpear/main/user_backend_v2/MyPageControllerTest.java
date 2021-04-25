@@ -1,6 +1,5 @@
 package com.dsmpear.main.user_backend_v2;
 
-import com.dsmpear.main.user_backend_v2.entity.language.LanguageRepository;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;

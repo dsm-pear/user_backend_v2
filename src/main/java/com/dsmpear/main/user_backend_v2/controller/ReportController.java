@@ -22,6 +22,12 @@ public class ReportController {
         return reportService.createReport(reportRequest);
     }
 
+    @PostMapping("/{reportId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Long temporaryStorage(@RequestBody @Valid ReportRequest reportRequest, @PathVariable Long reportId) {
+        return reportService.temporaryStorage(reportRequest, reportId);
+    }
+
     @GetMapping("/{reportId}")
     public ReportContentResponse getReportContent(@PathVariable Long reportId) {
         return reportService.getReport(reportId);

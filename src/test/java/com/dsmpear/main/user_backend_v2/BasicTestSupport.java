@@ -1,7 +1,5 @@
 package com.dsmpear.main.user_backend_v2;
 
-import com.dsmpear.main.user_backend_v2.entity.language.Language;
-import com.dsmpear.main.user_backend_v2.entity.language.LanguageRepository;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
@@ -23,6 +21,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 @Component
 public class BasicTestSupport {
 
@@ -34,9 +35,6 @@ public class BasicTestSupport {
 
     @Autowired
     private ReportTypeRepository reportTypeRepository;
-
-    @Autowired
-    private LanguageRepository languageRepository;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -77,6 +75,7 @@ public class BasicTestSupport {
                         .isSubmitted(isSubmitted)
                         .github("gitthub")
                         .teamName("teamName")
+                        .languages(Arrays.asList("dsaf","asdf"))
                         .build();
 
         reportTypeRepository.save(
@@ -88,14 +87,6 @@ public class BasicTestSupport {
                         .grade(Grade.GRADE1)
                         .build()
         );
-        for (int i = 0; i < 4; i++) {
-            languageRepository.save(
-                    Language.builder()
-                            .language("language"+i)
-                            .report(report)
-                            .build()
-            );
-        }
 
         addMember(report, "test@dsm.hs.kr");
 

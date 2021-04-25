@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 public interface ReportService {
     Long createReport(ReportRequest request);
 
+    Long temporaryStorage(ReportRequest request, Long reportId);
+
     ReportContentResponse getReport(Long reportId);
 
     ReportListResponse getReportList(Pageable pageable, Type type, Field field, Grade grade);

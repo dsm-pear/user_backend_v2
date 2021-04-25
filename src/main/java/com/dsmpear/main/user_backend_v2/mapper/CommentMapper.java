@@ -1,7 +1,6 @@
 package com.dsmpear.main.user_backend_v2.mapper;
 
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
-import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.payload.request.CommentRequest;
