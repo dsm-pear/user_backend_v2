@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  pear:
+    image: user-backend
+    build: .
+    container_name: user-backend-server
+    ports:
+      - "8005:8080"
+    volumes:
+      - /home/hong/projects/user_backend_v2/log:/logs/*.log
+    networks:
+      - redis-pear
+
