@@ -2,7 +2,6 @@ package com.dsmpear.main.user_backend_v2.entity.report;
 
 import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
-import com.dsmpear.main.user_backend_v2.entity.language.Language;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
@@ -57,13 +56,11 @@ public class Report extends BaseEntity {
     @JsonManagedReference
     private ReportType reportType;
 
-    // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
-    @Setter
-    @Builder.Default
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Language> languages = new ArrayList<>();
+    @ElementCollection  // 컬렉션 값 타입은, 부모에게 생명 주기가 완전히 종속되어 있고, 만약 변경된다면 모두 지운 후 다시 저장된다
+    @CollectionTable(name = "language_tbl", joinColumns = @JoinColumn(name = "report_id"))
+    private List<String> languages = new ArrayList<>();
 
+    // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
     @Builder.Default
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
@@ -80,7 +77,6 @@ public class Report extends BaseEntity {
     public void update(ReportRequest reportRequest) {
         this.title = reportRequest.getTitle();
         this.description = reportRequest.getDescription();
-        this.isSubmitted = reportRequest.getIsSubmitted();
         this.github = reportRequest.getGithub();
         this.teamName = reportRequest.getTeamName();
     }
@@ -89,7 +85,4 @@ public class Report extends BaseEntity {
         this.members.add(member);
     }
 
-    public void addLanguage(Language language) {
-        this.languages.add(language);
-    }
 }
