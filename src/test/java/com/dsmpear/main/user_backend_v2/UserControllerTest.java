@@ -46,7 +46,6 @@ public class UserControllerTest {
                         .email("apple@dsm.hs.kr")
                         .name("홍길동")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .build()
         );
 
@@ -54,7 +53,6 @@ public class UserControllerTest {
                 User.builder()
                         .email("alreadyuser@dsm.hs.kr")
                         .password(passwordEncoder.encode("1111"))
-                        .authStatus(true)
                         .name("alreadyuser")
                         .build()
         );
@@ -64,7 +62,6 @@ public class UserControllerTest {
                         .email("bear@dsm.hs.kr")
                         .name("고jam")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .build()
         );
 
@@ -73,7 +70,6 @@ public class UserControllerTest {
                         .email("cat@dsm.hs.kr")
                         .name("양jam")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .build()
         );
 
@@ -82,7 +78,6 @@ public class UserControllerTest {
                         .email("dear@dsm.hs.kr")
                         .name("강jam")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(true)
                         .build()
         );
 
@@ -91,7 +86,6 @@ public class UserControllerTest {
                         .email("dear123456@dsm.hs.kr")
                         .name("강jam")
                         .password(passwordEncoder.encode("1234"))
-                        .authStatus(false)
                         .build()
         );
 

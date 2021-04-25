@@ -36,9 +36,6 @@ public class User {
     @Column(name = "git_hub")
     private String gitHub;
 
-    @Column(name = "auth_status", nullable = false)
-    private Boolean authStatus;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Member> member;
@@ -47,9 +44,6 @@ public class User {
     @JsonManagedReference
     private List<Comment> comments;
 
-    public void authenticatedSuccess() {
-        this.authStatus = true;
-    }
 
     public void updateInfo(String intro, String gitHub){
         this.selfIntro = intro;

@@ -62,7 +62,6 @@ public class BasicTestSupport {
                 User.builder()
                         .password(passwordEncoder.encode("pwd"))
                         .email(email)
-                        .authStatus(true)
                         .name("name")
                         .gitHub("github")
                         .selfIntro("self")

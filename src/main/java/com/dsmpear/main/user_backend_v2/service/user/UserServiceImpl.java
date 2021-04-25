@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
                                         User.builder()
                                                 .name(request.getName())
                                                 .email(request.getEmail())
-                                                .authStatus(false)
                                                 .password(passwordEncoder.encode(request.getPassword()))
                                                 .build()
                                 )));
@@ -60,7 +59,7 @@ public class UserServiceImpl implements UserService {
             throw new UserCannotAccessException();
         }
 
-        List<User> users = userRepository.findAllByAuthStatusIsTrueAndNameContainingOrderByName(name);
+        List<User> users = userRepository.findAllByNameContainingOrderByName(name);
         List<UserResponse> userResponses = new ArrayList<>();
 
         for(User user : users) {

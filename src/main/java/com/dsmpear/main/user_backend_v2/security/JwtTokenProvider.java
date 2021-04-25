@@ -95,10 +95,6 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(authDetails, "", authDetails.getAuthorities());
     }
 
-    public boolean isEmailAuthenticated(String token) {
-        return authDetailsService.loadUserByUsername(getEmail(token)).getAuthStatus();
-    }
-
     private String encoding() {
         return Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
