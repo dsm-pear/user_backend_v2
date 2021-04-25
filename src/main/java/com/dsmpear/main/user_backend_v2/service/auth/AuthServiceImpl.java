@@ -27,16 +27,13 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${auth.jwt.exp.access}")
-    private Long accessExp;
-
     @Value("${auth.jwt.exp.refresh}")
     private Long refreshExp;
 
     @Override
     public TokenResponse signIn(SignInRequest request) {
         userRepository.findByEmail(request.getEmail())
-                .filter(signIn -> passwordEncoder.matches(signIn.getPassword(), request.getPassword()))
+                .filter(user -> passwordEncoder.matches(request.getPassword(), user.getPassword()))
                 .orElseThrow(UserNotFoundException::new);
 
         RefreshToken refreshToken = refreshTokenRepository.save(
