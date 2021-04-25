@@ -10,15 +10,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserFactory implements Factory<UserRepository, User> {
+public class UserFactory {
 
     private final AuthenticationFacade authenticationFacade;
     private final UserRepository userRepository;
-
-    @Override
-    public User create(String value) {
-        return getUser(value == null ? "" : value);
-    }
 
     public User createAuthUser() {
         return getUser(authenticationFacade.getEmail());

@@ -8,11 +8,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ReportFactory implements Factory<ReportRepository, Report> {
+public class ReportFactory {
 
     private final ReportRepository reportRepository;
 
-    @Override
     public Report create(String value) {
         return reportRepository.findById(Long.parseLong(value))
                 .orElseThrow(ReportNotFoundException::new);
