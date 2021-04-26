@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.service.report;
 
+import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
@@ -14,7 +15,6 @@ import com.dsmpear.main.user_backend_v2.factory.UserFactory;
 import com.dsmpear.main.user_backend_v2.mapper.*;
 import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.*;
-import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,6 +43,7 @@ public class ReportServiceImpl implements ReportService {
     public Long createReport(ReportRequest request) {
         Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
+        updateMember(report, request.getMembers());
         report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
 
         return reportRepository.save(report).getId();
@@ -101,10 +102,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private Long updateReportContent(ReportRequest request, Long reportId) {
-        Report report = reportFactory.create(reportId.toString());
+        Report report = reportFactory.create(reportId);
         if(!isMine(report)) throw new InvalidAccessException();
         report.update(request);
         report.getReportType().update(request);
+        updateMember(report, request.getMembers());
         report.getLanguages()
                 .forEach(report.getLanguages()::add);
         return reportId;
@@ -117,5 +119,12 @@ public class ReportServiceImpl implements ReportService {
     private boolean isMine(Report report) {
         return report.getMembers().stream()
                 .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
+    }
+
+    private void updateMember(Report report, List<String> members) {
+        report.setMembers(members.stream()
+                .map(member -> Member.builder()
+                        .user(userFactory.createUser(member))
+                        .report(report).build()).collect(Collectors.toList()));
     }
 }

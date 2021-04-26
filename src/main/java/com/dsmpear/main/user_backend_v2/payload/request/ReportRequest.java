@@ -48,4 +48,6 @@ public class ReportRequest {
 
     private String teamName;
 
+    private List<String> members;
+
 }
