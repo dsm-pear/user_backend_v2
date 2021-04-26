@@ -15,8 +15,10 @@ services:
     image: redis
     container_name: redis-server
     ports:
-    - "6380:6379"
+      - "6380:6379"
     volumes:
-    - /home/hong/projects/user_backend_v2/data
+      - /home/hong/projects/user_backend_v2/data
+    networks:
+      - redis-network
 networks:
   redis-network:
