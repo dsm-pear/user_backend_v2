@@ -19,6 +19,10 @@ public class UserFactory {
         return getUser(authenticationFacade.getEmail());
     }
 
+    public User createUser(String email) {
+        return getUser(email);
+    }
+
     private User getUser(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(UserNotFoundException::new);

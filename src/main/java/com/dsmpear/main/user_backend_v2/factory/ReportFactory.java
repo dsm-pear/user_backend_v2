@@ -12,8 +12,8 @@ public class ReportFactory {
 
     private final ReportRepository reportRepository;
 
-    public Report create(String value) {
-        return reportRepository.findById(Long.parseLong(value))
+    public Report create(Long value) {
+        return reportRepository.findById(value)
                 .orElseThrow(ReportNotFoundException::new);
     }
 }

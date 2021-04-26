@@ -88,6 +88,7 @@ public class ReportControllerTest {
                 .description("description")
                 .access(Access.EVERY)
                 .description("description")
+                .members(Arrays.asList("email", "email2", "test@dsm.hs.kr"))
                 .build();
 
         mvc.perform(post("/report")
