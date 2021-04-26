@@ -61,6 +61,7 @@ public class Report extends BaseEntity {
     private List<String> languages = new ArrayList<>();
 
     // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
+    @Setter
     @Builder.Default
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
