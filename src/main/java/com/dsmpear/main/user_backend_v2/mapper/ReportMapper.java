@@ -16,17 +16,14 @@ import org.mapstruct.ReportingPolicy;
 import javax.persistence.MapsId;
 import java.util.List;
 
-@Mapper(config = MapStructConfig.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(config = MapStructConfig.class)
 public interface ReportMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "comment", ignore = true)
     @Mapping(target = "isAccepted", defaultValue = "false", ignore = true)
     @Mapping(target = "reportType.type", source = "request.type")
     @Mapping(target = "reportType.field", source = "request.field")
     @Mapping(target = "reportType.access", source = "request.access")
     @Mapping(target = "reportType.grade", source = "request.grade")
-    @Mapping(target = "languages", ignore = true)
     Report requestToEntity(ReportRequest request, User user);
 
     @Mapping(source = "report.reportType.type", target = "type")
