@@ -52,7 +52,7 @@ public class Report extends BaseEntity {
 
     //  관계매핑
     @Setter
-    @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy ="report", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy ="report", fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonManagedReference
     private ReportType reportType;
 
@@ -63,7 +63,7 @@ public class Report extends BaseEntity {
     // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
     @Setter
     @Builder.Default
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Member> members = new ArrayList<>();
 
