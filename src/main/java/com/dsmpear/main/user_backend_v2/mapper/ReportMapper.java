@@ -24,7 +24,7 @@ public interface ReportMapper {
     @Mapping(target = "reportType.field", source = "request.field")
     @Mapping(target = "reportType.access", source = "request.access")
     @Mapping(target = "reportType.grade", source = "request.grade")
-    @Mapping(target = "language", source = "request.languages")
+    @Mapping(target = "languages", source = "request.languages")
     @Mapping(target = "members", ignore = true)
     Report requestToEntity(ReportRequest request, User user);
 
