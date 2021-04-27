@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AccessTokenResponse tokenRefresh(String token) {
-        if (jwtTokenProvider.isRefreshToken(token)) throw new InvalidTokenException();
+        if (!jwtTokenProvider.isRefreshToken(token)) throw new InvalidTokenException();
 
         return refreshTokenRepository.findByRefreshToken(token)
                 .map(refreshToken -> refreshToken.update(refreshExp))
