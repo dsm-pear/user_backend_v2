@@ -39,7 +39,7 @@ public class JwtTokenProvider {
 
     public String generateAccessToken(String email) {
         return Jwts.builder()
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration * 1000))
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, encoding())
                 .setSubject(email)
@@ -49,7 +49,7 @@ public class JwtTokenProvider {
 
     public String generateRefreshToken(String email) {
         return Jwts.builder()
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration * 1000))
                 .setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256, encoding())
                 .setSubject(email)
