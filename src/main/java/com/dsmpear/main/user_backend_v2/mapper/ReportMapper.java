@@ -29,6 +29,7 @@ public interface ReportMapper {
     Report requestToEntity(ReportRequest request, User user);
 
     @Mapping(source = "report.reportType.type", target = "type")
+    @Mapping(source = "report.id", target = "reportId")
     ReportResponse entityToResponse(Report report);
 
     @Mapping(source = "report.languages", target = "languages")
@@ -38,7 +39,6 @@ public interface ReportMapper {
     @Mapping(source = "report.reportType.grade", target = "grade")
     @Mapping(source = "report.reportFile.fileName", target = "fileName")
     @Mapping(source = "report.reportFile.id", target = "fileId")
-    @Mapping(source = "report.id", target = "reportId")
     @Mapping(source = "comments", target = "comments")
     @Mapping(source = "member", target = "member")
     @Mapping(source = "report.createdAt", target = "createdAt")
