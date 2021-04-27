@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2;
 
+import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
@@ -28,6 +29,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 
@@ -74,6 +76,7 @@ public class ReportControllerTest {
     }
 
     @Test
+    @Transactional
     @WithMockUser(value = "email", password = "pwd")
     void 보고서_작성_성공() throws Exception {
         ReportRequest request = ReportRequest.builder()
@@ -88,18 +91,13 @@ public class ReportControllerTest {
                 .description("description")
                 .access(Access.EVERY)
                 .description("description")
-                .members(Arrays.asList("email", "email2", "test@dsm.hs.kr"))
+                .members(Arrays.asList("email2", "test@dsm.hs.kr"))
                 .build();
 
         mvc.perform(post("/report")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
-
-        Report report = reportRepository.findAllBy().get(4);
-
-        Assertions.assertEquals(report.getTitle(), "new title");
-        Assertions.assertEquals(report.getReportType().getType(), Type.TEAM);
     }
 
     @Test

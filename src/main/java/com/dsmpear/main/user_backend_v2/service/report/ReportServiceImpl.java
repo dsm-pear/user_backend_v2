@@ -45,7 +45,6 @@ public class ReportServiceImpl implements ReportService {
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
         updateMember(report, request.getMembers());
         report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
-
         return reportRepository.save(report).getId();
     }
 
