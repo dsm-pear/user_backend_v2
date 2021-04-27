@@ -32,11 +32,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenResponse signIn(SignInRequest request) {
-        User use1r = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(UserNotFoundException::new);
-
-        System.out.println(use1r.getEmail());
-        System.out.println(passwordEncoder.matches(request.getPassword(), use1r.getPassword()));
         userRepository.findByEmail(request.getEmail())
                 .filter(user -> passwordEncoder.matches(request.getPassword(), user.getPassword()))
                 .orElseThrow(UserNotFoundException::new);
