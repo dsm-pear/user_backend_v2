@@ -33,7 +33,7 @@ public class User {
     @Column(name = "self_intro")
     private String selfIntro;
 
-    @Column(name = "git_hub")
+    @Column(name = "github")
     private String gitHub;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
