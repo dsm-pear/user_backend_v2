@@ -10,6 +10,7 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: update
+    show-sql: true
   mail:
     host: smtp.gmail.com
     port: 587
