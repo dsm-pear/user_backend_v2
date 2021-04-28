@@ -1,6 +1,5 @@
 package com.dsmpear.main.user_backend_v2.controller;
 
-import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
 import com.dsmpear.main.user_backend_v2.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -16,27 +15,9 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long writeReport(@RequestBody @Valid ReportRequest reportRequest) {
-        return reportService.createReport(reportRequest);
-    }
-
-    @PostMapping("/{reportId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long temporaryStorage(@RequestBody @Valid ReportRequest reportRequest, @PathVariable Long reportId) {
-        return reportService.temporaryStorage(reportRequest, reportId);
-    }
-
     @GetMapping("/{reportId}")
     public ReportContentResponse getReportContent(@PathVariable Long reportId) {
         return reportService.getReport(reportId);
-    }
-
-    @PatchMapping("/{reportId}")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long updateReport(@PathVariable Long reportId, @RequestBody ReportRequest reportRequest) {
-        return reportService.updateReport(reportId, reportRequest);
     }
 
     @DeleteMapping("/{reportId}")
