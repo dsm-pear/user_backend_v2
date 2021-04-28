@@ -71,10 +71,12 @@ public class SaveReportServiceImpl implements SaveReportService{
         return updateReportContent(request, reportId);
     }
 
+
+
     private void updateMember(Report report, List<String> members) {
         if(members.stream().anyMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
             members.add(userFactory.createAuthUser().getEmail());
-        
+
         report.getMembers().clear();
         report.getMembers().addAll(members.stream()
                 .map(member -> Member.builder()
@@ -90,12 +92,8 @@ public class SaveReportServiceImpl implements SaveReportService{
         Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
-        if(!(request instanceof SoleReportRequest)) {
-
-            updateMember(report, ((TeamReportRequest) request).getMembers());
-        } else {
-            report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
-        }
+        if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest) request).getMembers());
+        else report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
 
         return reportRepository.save(report);
     }

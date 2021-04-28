@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Entity
 public class Member {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
