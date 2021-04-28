@@ -1,6 +1,5 @@
 package com.dsmpear.main.user_backend_v2;
 
-import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
@@ -8,8 +7,9 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
-import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
-import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
+import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,7 +29,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import javax.transaction.Transactional;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -76,50 +73,49 @@ public class ReportControllerTest {
     }
 
     @Test
-    @Transactional
     @WithMockUser(value = "email", password = "pwd")
-    void 보고서_작성_성공() throws Exception {
-        ReportRequest request = ReportRequest.builder()
-                .title("new title")
-                .type(Type.TEAM)
-                .teamName("team")
-                .languages(Arrays.asList("sdf","asdfsa"))
-                .isSubmitted(true)
-                .grade(Grade.GRADE1)
-                .github("sf")
-                .field(Field.WEB)
-                .description("description")
-                .access(Access.EVERY)
-                .description("description")
-                .members(Arrays.asList("email2", "test@dsm.hs.kr"))
-                .build();
+    void 보고서_개인_작성_성공() throws Exception {
+         SoleReportRequest request = buildSoleRequest("title");
 
-        mvc.perform(post("/report")
+        mvc.perform(post("/report/sole")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(basicTestSupport.writeValueAsString(request))).andDo(print())
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(value = "email", password = "pwd")
+    void 보고서_팀_작성_성공() throws Exception {
+         TeamReportRequest request = buildTeamRequest("title");
+
+        System.out.println(basicTestSupport.writeValueAsString(request));
+        mvc.perform(post("/report/team")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(basicTestSupport.writeValueAsString(request))).andDo(print())
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser(value = "test@dsm.hs.kr", password = "pwd")
+    void 보고서_개인_수정_성공() throws Exception {
+        SoleReportRequest request = buildSoleRequest("title");
+
+        System.out.println(basicTestSupport.writeValueAsString(request));
+        mvc.perform(patch("/report/sole/" + successReport.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
 
     @Test
-    void 보고서_작성_권한실패() throws Exception {
-        ReportRequest request = ReportRequest.builder()
-                .title("new title")
-                .type(Type.TEAM)
-                .teamName("team")
-                .languages(Arrays.asList("sdf","asdfsa"))
-                .isSubmitted(true)
-                .grade(Grade.GRADE1)
-                .github("sf")
-                .field(Field.WEB)
-                .description("description")
-                .access(Access.EVERY)
-                .description("description")
-                .build();
+    @WithMockUser(value = "test@dsm.hs.kr", password = "pwd")
+    void 보고서_팀_수정_성공() throws Exception {
+        TeamReportRequest request = buildTeamRequest("title");
 
-        mvc.perform(post("/report")
+        mvc.perform(post("/report/team/" + successReport.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(basicTestSupport.writeValueAsString(request)))
-                .andExpect(status().isNotFound());
+                .content(basicTestSupport.writeValueAsString(request))).andDo(print())
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -160,5 +156,35 @@ public class ReportControllerTest {
     void 보고서_삭제_실패_다른유저() throws Exception {
         mvc.perform(delete("/report/"+successReport.getId()))
                 .andExpect(status().isUnauthorized());
+    }
+
+    private SoleReportRequest buildSoleRequest(String title) {
+        return SoleReportRequest.builder()
+                .title(title)
+                .type(Type.TEAM)
+                .languages(Arrays.asList("sdf","asdfsa"))
+                .isSubmitted(true)
+                .grade(Grade.GRADE1)
+                .github("sf")
+                .field(Field.WEB)
+                .description("description")
+                .access(Access.EVERY)
+                .build();
+    }
+
+    private TeamReportRequest buildTeamRequest(String title) {
+        return TeamReportRequest.builder()
+                .teamName("teamName")
+                .members(Arrays.asList("email", "email2"))
+                .title(title)
+                .type(Type.TEAM)
+                .languages(Arrays.asList("sdf","asdfsa"))
+                .isSubmitted(true)
+                .grade(Grade.GRADE1)
+                .github("sf")
+                .field(Field.WEB)
+                .description("description")
+                .access(Access.EVERY)
+                .build();
     }
 }
