@@ -68,7 +68,7 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            return getTokenBody(token).getExpiration().before(new Date());
+            return getTokenBody(token).getExpiration().after(new Date());
         } catch (Exception e) {
             throw new InvalidTokenException();
         }
@@ -84,7 +84,6 @@ public class JwtTokenProvider {
 
     public String getEmail(String token) {
         try {
-            System.out.println("getEmail : " + getTokenBody(token).getSubject());
             return getTokenBody(token).getSubject();
         } catch (Exception e) {
             throw new InvalidTokenException();
