@@ -3,14 +3,11 @@ package com.dsmpear.main.user_backend_v2.entity.report;
 import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
-import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
-import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
-import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
-import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
 import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
-import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -43,7 +40,7 @@ public class Report extends BaseEntity {
     @Column(name = "is_submitted", nullable = false)
     private Boolean isSubmitted;
 
-    @Column(nullable = false, name = "team_name")
+    @Column(name = "team_name")
     private String teamName;
 
     private String comment;
@@ -61,7 +58,6 @@ public class Report extends BaseEntity {
     private List<String> languages = new ArrayList<>();
 
     // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
-    @Setter
     @Builder.Default
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
@@ -75,15 +71,21 @@ public class Report extends BaseEntity {
     @JsonManagedReference
     private List<Comment> comments;
 
-    public void update(ReportRequest reportRequest) {
+    public <R extends BaseReportRequest>void update(R reportRequest) {
         this.title = reportRequest.getTitle();
         this.description = reportRequest.getDescription();
         this.github = reportRequest.getGithub();
-        this.teamName = reportRequest.getTeamName();
+        if (!(reportRequest instanceof SoleReportRequest))
+            this.teamName = ((TeamReportRequest)reportRequest).getTeamName();
     }
 
     public void addMember(Member member) {
         this.members.add(member);
+    }
+
+    public void addLanguage(List<String> language) {
+        this.languages.clear();
+        language.forEach(lang -> this.languages.add(lang));
     }
 
 }
