@@ -55,9 +55,6 @@ public class AuthServiceImpl implements AuthService {
     public AccessTokenResponse tokenRefresh(String token) {
         if (!jwtTokenProvider.isRefreshToken(token)) throw new InvalidTokenException();
 
-        System.out.println(jwtTokenProvider.isRefreshToken(token));
-        System.out.println(refreshTokenRepository.findByRefreshToken(token).isEmpty());
-
         return refreshTokenRepository.findByRefreshToken(token)
                 .map(refreshToken -> refreshToken.update(refreshExp))
                 .map(refreshToken -> jwtTokenProvider.generateAccessToken(refreshToken.getEmail()))

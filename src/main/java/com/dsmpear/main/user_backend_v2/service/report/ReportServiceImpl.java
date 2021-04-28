@@ -13,7 +13,9 @@ import com.dsmpear.main.user_backend_v2.exception.ReportNotFoundException;
 import com.dsmpear.main.user_backend_v2.factory.ReportFactory;
 import com.dsmpear.main.user_backend_v2.factory.UserFactory;
 import com.dsmpear.main.user_backend_v2.mapper.*;
-import com.dsmpear.main.user_backend_v2.payload.request.ReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
+import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,24 +36,12 @@ public class ReportServiceImpl implements ReportService {
     private final ReportFactory reportFactory;
 
     private final ReportMapper reportMapper;
-    private final ReportTypeMapper reportTypeMapper;
     private final CommentMapper commentMapper;
     private final MemberMapper memberMapper;
 
     @Override
-    @Transactional
-    public Long createReport(ReportRequest request) {
-        Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
-        report.setReportType(reportTypeMapper.requestToEntity(request, report));
-        updateMember(report, request.getMembers());
-        report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
-        return reportRepository.save(report).getId();
-    }
-
-    @Override
     public ReportContentResponse getReport(Long reportId) {
-        Report report = reportRepository.findById(reportId)
-                .orElseThrow(ReportNotFoundException::new);
+        Report report = reportFactory.create(reportId);
 
         List<ReportCommentsResponse> comments = report.getComments().stream().map(comment ->
                         commentMapper.entityToResponse(comment, comment.getUser().equals(userFactory.createAuthUser())))
@@ -80,34 +70,10 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    @Transactional
-    public Long updateReport(Long reportId, ReportRequest request) {
-        return updateReportContent(request, reportId);
-    }
-
-    @Override
-    @Transactional
-    public Long temporaryStorage(ReportRequest request, Long reportId) {
-        return updateReportContent(request, reportId);
-    }
-
-    @Override
     public Long deleteReport(Long reportId) {
-        Report report = reportRepository.findById(reportId)
-                .orElseThrow(ReportNotFoundException::new);
-        if(!isMine(report)) throw new InvalidAccessException();
-        reportRepository.delete(report);
-        return reportId;
-    }
-
-    private Long updateReportContent(ReportRequest request, Long reportId) {
         Report report = reportFactory.create(reportId);
         if(!isMine(report)) throw new InvalidAccessException();
-        report.update(request);
-        report.getReportType().update(request);
-        updateMember(report, request.getMembers());
-        report.getLanguages()
-                .forEach(report.getLanguages()::add);
+        reportRepository.delete(report);
         return reportId;
     }
 
@@ -118,12 +84,5 @@ public class ReportServiceImpl implements ReportService {
     private boolean isMine(Report report) {
         return report.getMembers().stream()
                 .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
-    }
-
-    private void updateMember(Report report, List<String> members) {
-        report.setMembers(members.stream()
-                .map(member -> Member.builder()
-                        .user(userFactory.createUser(member))
-                        .report(report).build()).collect(Collectors.toList()));
     }
 }
