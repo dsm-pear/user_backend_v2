@@ -84,6 +84,7 @@ public class JwtTokenProvider {
 
     public String getEmail(String token) {
         try {
+            System.out.println("getEmail : " + getTokenBody(token).getSubject());
             return getTokenBody(token).getSubject();
         } catch (Exception e) {
             throw new InvalidTokenException();
