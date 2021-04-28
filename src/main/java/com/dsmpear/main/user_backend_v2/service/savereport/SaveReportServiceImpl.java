@@ -72,7 +72,13 @@ public class SaveReportServiceImpl implements SaveReportService{
     }
 
     private void updateMember(Report report, List<String> members) {
+        System.out.println("멤버 리스트");
+        members.forEach(System.out::println);
+
+        System.out.println("보고서의 멤버 size");
+        System.out.println(report.getMembers().size());
         report.getMembers().clear();
+        System.out.println("클리어 후 : " + report.getMembers().size());
         report.getMembers().addAll(members.stream()
                 .map(member -> Member.builder()
                         .user(userFactory.createUser(member))
@@ -90,11 +96,6 @@ public class SaveReportServiceImpl implements SaveReportService{
         if(!(request instanceof SoleReportRequest)) {
 
             updateMember(report, ((TeamReportRequest) request).getMembers());
-
-            report.getMembers().addAll(((TeamReportRequest) request).getMembers().
-                    stream().map(member -> memberMapper.getEntity(userFactory.createUser(member), report))
-                    .collect(Collectors.toList()));
-
         } else {
             report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
         }

@@ -48,7 +48,7 @@ secret:
   
 logging:
   file:
-    name: logs
+    name: ./logs/logs
     path: ./logs/
   level:
     root: warn
