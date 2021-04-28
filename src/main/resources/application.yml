@@ -48,7 +48,7 @@ secret:
 logging:
   file:
     name: ./logs/logs
-    path: ./logs/
+    # path: ./logs/ if we have both of name and path, logback ignore the config and don't try to save file
   level:
     root: warn
     com.dsmpear.main.user_backend_v2.controllers: error
