@@ -20,28 +20,28 @@ import java.util.List;
 @SuperBuilder
 public abstract class BaseReportRequest {
     @NotBlank
-    protected String title;
+    private String title;
 
     @NotBlank
-    protected String description;
+    private String description;
 
-    protected List<String> languages;
-
-    @NotNull
-    protected Type type;
+    private List<String> languages;
 
     @NotNull
-    protected Access access;
+    private Type type;
 
     @NotNull
-    protected Field field;
+    private Access access;
 
     @NotNull
-    protected Grade grade;
+    private Field field;
 
     @NotNull
-    protected Boolean isSubmitted;
+    private Grade grade;
 
-    protected String github;
+    @NotNull
+    private Boolean isSubmitted;
+
+    private String github;
 
 }

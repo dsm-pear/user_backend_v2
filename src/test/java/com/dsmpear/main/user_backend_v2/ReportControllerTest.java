@@ -88,7 +88,6 @@ public class ReportControllerTest {
     void 보고서_팀_작성_성공() throws Exception {
          TeamReportRequest request = buildTeamRequest("title");
 
-        System.out.println(basicTestSupport.writeValueAsString(request));
         mvc.perform(post("/report/team")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request))).andDo(print())
@@ -100,7 +99,6 @@ public class ReportControllerTest {
     void 보고서_개인_수정_성공() throws Exception {
         SoleReportRequest request = buildSoleRequest("title");
 
-        System.out.println(basicTestSupport.writeValueAsString(request));
         mvc.perform(patch("/report/sole/" + successReport.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request)))
