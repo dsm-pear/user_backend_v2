@@ -1,19 +1,19 @@
 package com.dsmpear.main.user_backend_v2.payload.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 public class NoticesResponse extends PageResponse {
 
     private List<NoticeResponse> noticeResponses;
-
-    @Builder
-    public NoticesResponse(Long totalElements, int totalPages, List<NoticeResponse> noticeResponses) {
-        super(totalElements, totalPages);
-        this.noticeResponses = noticeResponses;
-    }
 
 }

@@ -77,7 +77,7 @@ public class MyPageServiceImpl implements MyPageService {
         return ProfileReportsResponse.builder()
                 .totalElements(totalElements)
                 .totalPages(totalPages)
-                .myProfileReportResponses(myPageReportResponses)
+                .myPageReportResponses(myPageReportResponses)
                 .build();
     }
 

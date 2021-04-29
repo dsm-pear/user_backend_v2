@@ -53,6 +53,7 @@ public class Report extends BaseEntity {
     @JsonManagedReference
     private ReportType reportType;
 
+    @Builder.Default
     @ElementCollection  // 컬렉션 값 타입은, 부모에게 생명 주기가 완전히 종속되어 있고, 만약 변경된다면 모두 지운 후 다시 저장된다
     @CollectionTable(name = "language_tbl", joinColumns = @JoinColumn(name = "report_id"))
     private List<String> languages = new ArrayList<>();
