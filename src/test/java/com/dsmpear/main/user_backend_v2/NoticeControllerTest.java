@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = UserBackendV2Application.class)
 @ActiveProfiles("test")
-class NoticeControllerTest {
+public class NoticeControllerTest {
 
     @Autowired
     private WebApplicationContext context;

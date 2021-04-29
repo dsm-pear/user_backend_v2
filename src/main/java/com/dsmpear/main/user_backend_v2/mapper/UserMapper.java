@@ -6,6 +6,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = MapStructConfig.class)
 public interface UserMapper {
-
     UserResponse entityToResponse(User user);
 }

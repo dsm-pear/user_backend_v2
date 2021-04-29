@@ -2,7 +2,6 @@ package com.dsmpear.main.user_backend_v2.factory;
 
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
-import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
 import com.dsmpear.main.user_backend_v2.exception.UserNotFoundException;
 import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;

@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapStructConfig.class)
 public interface CommentMapper {
+
     @Mapping(source = "report", target = "report")
     @Mapping(target = "id", ignore = true)
     Comment requestToEntity(CommentRequest commentRequest, Report report, User user);
@@ -18,4 +19,5 @@ public interface CommentMapper {
     @Mapping(source = "comment.user.email", target = "userEmail")
     @Mapping(source = "comment.user.name", target = "userName")
     ReportCommentsResponse entityToResponse(Comment comment, Boolean isMine);
+
 }

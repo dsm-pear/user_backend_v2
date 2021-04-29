@@ -51,4 +51,5 @@ public class SaveReportController {
     public Long temporaryTeamStorage(@RequestBody @Valid TeamReportRequest reportRequest, @PathVariable Long reportId) {
         return saveReportService.tempSaveTeamReport(reportRequest, reportId);
     }
+
 }

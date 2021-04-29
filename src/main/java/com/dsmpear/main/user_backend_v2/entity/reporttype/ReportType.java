@@ -51,4 +51,5 @@ public class ReportType {
         this.field = request.getField();
         this.type = request.getType();
     }
+
 }

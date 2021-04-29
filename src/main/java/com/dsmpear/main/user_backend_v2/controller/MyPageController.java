@@ -31,4 +31,5 @@ public class MyPageController {
     public ProfileReportsResponse getReport(Pageable page){
         return myPageService.getReport(page);
     }
+
 }

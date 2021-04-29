@@ -2,8 +2,6 @@ package com.dsmpear.main.user_backend_v2.entity.user;
 
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
-import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,7 +41,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Comment> comments;
-
 
     public void updateInfo(String intro, String gitHub){
         this.selfIntro = intro;

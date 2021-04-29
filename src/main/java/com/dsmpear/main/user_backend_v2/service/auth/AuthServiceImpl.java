@@ -2,7 +2,6 @@ package com.dsmpear.main.user_backend_v2.service.auth;
 
 import com.dsmpear.main.user_backend_v2.entity.refreshtoken.RefreshToken;
 import com.dsmpear.main.user_backend_v2.entity.refreshtoken.RefreshTokenRepository;
-import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.exception.InvalidTokenException;
 import com.dsmpear.main.user_backend_v2.exception.UserNotFoundException;
@@ -12,14 +11,13 @@ import com.dsmpear.main.user_backend_v2.payload.response.TokenResponse;
 import com.dsmpear.main.user_backend_v2.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
@@ -61,6 +59,5 @@ public class AuthServiceImpl implements AuthService {
                 .map(AccessTokenResponse::new)
                 .orElseThrow(InvalidTokenException::new);
     }
-
 
 }

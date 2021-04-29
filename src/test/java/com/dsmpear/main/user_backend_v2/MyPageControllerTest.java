@@ -3,7 +3,6 @@ package com.dsmpear.main.user_backend_v2;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
-import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportTypeRepository;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.payload.request.SetSelfIntroRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = UserBackendV2Application.class)
 @ActiveProfiles("test")
-class MyPageControllerTest {
+public class MyPageControllerTest {
 
     @Autowired
     private UserRepository userRepository;

@@ -12,4 +12,5 @@ public interface ReportTypeMapper {
     @Mapping(target = "report", source = "report")
     @Mapping(target = "reportId", ignore = true)
     ReportType requestToEntity(BaseReportRequest request, Report report);
+
 }

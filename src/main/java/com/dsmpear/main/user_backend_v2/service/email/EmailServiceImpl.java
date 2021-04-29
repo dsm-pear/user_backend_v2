@@ -20,12 +20,11 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Base64;
 import java.util.Objects;
 import java.util.Random;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
@@ -128,4 +127,5 @@ public class EmailServiceImpl implements EmailService {
 
         return body.replace("{{board_url}}", url + "report/" + request.getBoardId()).replace("{{body}}", request.getBody());
     }
+
 }

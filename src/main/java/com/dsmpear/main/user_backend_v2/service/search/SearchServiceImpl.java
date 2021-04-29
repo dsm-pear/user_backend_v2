@@ -9,7 +9,6 @@ import com.dsmpear.main.user_backend_v2.mapper.ReportMapper;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportListResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.SearchProfileResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.UserResponse;
-import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-@Service
 @RequiredArgsConstructor
+@Service
 public class SearchServiceImpl implements SearchService {
 
     private final ReportRepository reportRepository;
@@ -57,8 +55,9 @@ public class SearchServiceImpl implements SearchService {
                 .totalElements(reportPage.getTotalElements())
                 .totalPages(reportPage.getTotalPages())
                 .reportResponses(reportPage
-                        .map(report -> reportMapper.entityToResponse(report))
+                        .map(reportMapper::entityToResponse)
                         .stream().collect(Collectors.toList()))
                 .build();
     }
+
 }

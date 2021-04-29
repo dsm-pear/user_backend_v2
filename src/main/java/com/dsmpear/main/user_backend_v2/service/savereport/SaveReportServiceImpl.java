@@ -3,7 +3,6 @@ package com.dsmpear.main.user_backend_v2.service.savereport;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
-import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
 import com.dsmpear.main.user_backend_v2.factory.ReportFactory;
 import com.dsmpear.main.user_backend_v2.factory.UserFactory;
@@ -17,13 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class SaveReportServiceImpl implements SaveReportService{
 
     private final ReportRepository reportRepository;
@@ -71,8 +68,6 @@ public class SaveReportServiceImpl implements SaveReportService{
         return updateReportContent(request, reportId);
     }
 
-
-
     private void updateMember(Report report, List<String> members) {
         if(members.stream().anyMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
             members.add(userFactory.createAuthUser().getEmail());
@@ -106,7 +101,12 @@ public class SaveReportServiceImpl implements SaveReportService{
         report.update(request);
         report.getReportType().update(request);
 
-        if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest)request).getMembers());
+        if(!isSoleRequest(request)) {
+            updateMember(report, ((TeamReportRequest) request).getMembers());
+        } else {
+            report.getMembers().clear();
+            report.getMembers().add(memberMapper.getEntity(userFactory.createAuthUser(), report));
+        }
 
         report.addLanguage(request.getLanguages());
 
@@ -117,4 +117,5 @@ public class SaveReportServiceImpl implements SaveReportService{
         return report.getMembers().stream()
                 .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
     }
+
 }

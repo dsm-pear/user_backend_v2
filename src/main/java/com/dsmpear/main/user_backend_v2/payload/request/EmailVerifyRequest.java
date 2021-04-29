@@ -15,4 +15,5 @@ public class EmailVerifyRequest {
 
     @Email
     private String email;
+
 }

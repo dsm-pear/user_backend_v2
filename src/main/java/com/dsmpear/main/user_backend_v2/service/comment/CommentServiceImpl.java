@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -32,12 +32,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public Long updateComment(Long commentId, String content) {
+    public void updateComment(Long commentId, String content) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(CommentNotFoundException::new);
         validateAccess(comment);
         comment.updateContent(content);
-        return comment.getId();
     }
 
     @Override

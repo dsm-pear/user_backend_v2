@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = UserBackendV2Application.class)
 @ActiveProfiles("test")
-class QuestionControllerTest {
+public class QuestionControllerTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -75,6 +75,5 @@ class QuestionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
-
 
 }

@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = UserBackendV2Application.class)
 @ActiveProfiles("test")
-class SearchControllerTest {
+public class SearchControllerTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -116,6 +116,5 @@ class SearchControllerTest {
         SearchProfileResponse response = new ObjectMapper().readValue(result.getResponse().getContentAsString(), SearchProfileResponse.class);
         Assertions.assertEquals(response.getTotalElements().longValue(), 0L);
     }
-
 
 }

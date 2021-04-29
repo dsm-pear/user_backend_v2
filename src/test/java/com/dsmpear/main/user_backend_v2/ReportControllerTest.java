@@ -7,7 +7,6 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
-import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
@@ -27,7 +26,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -185,4 +183,5 @@ public class ReportControllerTest {
                 .access(Access.EVERY)
                 .build();
     }
+
 }

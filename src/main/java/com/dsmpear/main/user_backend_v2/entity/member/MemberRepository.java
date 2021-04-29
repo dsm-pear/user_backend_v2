@@ -10,10 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends CrudRepository<Member,Integer> {
-    List<Member> findAllByReport(Report report);
     List<Member> findAllByUser(User user);
     Optional<Member> findByReportAndUser(Report report, User user);
-    void deleteAllByReport(Report report);
-
-    List<Member> findAllBy();
 }

@@ -5,7 +5,6 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -19,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 public abstract class BaseReportRequest {
+
     @NotBlank
     private String title;
 

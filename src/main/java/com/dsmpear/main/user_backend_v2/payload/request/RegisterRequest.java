@@ -28,10 +28,4 @@ public class RegisterRequest {
     @ValidateEmail
     private String email;
 
-    public Boolean isValidAddress(String validAddress) {
-        String emailAddress = email.substring(email.indexOf("@") + 1);
-
-        return validAddress.equals(emailAddress);
-    }
-
 }

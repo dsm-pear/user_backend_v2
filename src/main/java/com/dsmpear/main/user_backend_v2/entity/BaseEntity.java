@@ -19,4 +19,5 @@ public abstract class BaseEntity {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd`T`hh:mm:SS")
     private LocalDateTime createdAt;
+
 }

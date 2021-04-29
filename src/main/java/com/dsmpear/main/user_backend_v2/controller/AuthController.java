@@ -4,7 +4,6 @@ import com.dsmpear.main.user_backend_v2.payload.request.SignInRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.AccessTokenResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.TokenResponse;
 import com.dsmpear.main.user_backend_v2.service.auth.AuthService;
-import com.dsmpear.main.user_backend_v2.service.auth.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

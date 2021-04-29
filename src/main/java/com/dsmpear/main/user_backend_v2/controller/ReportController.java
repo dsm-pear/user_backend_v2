@@ -3,10 +3,7 @@ package com.dsmpear.main.user_backend_v2.controller;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
 import com.dsmpear.main.user_backend_v2.service.report.ReportService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RequestMapping("/report")
@@ -24,4 +21,5 @@ public class ReportController {
     public void deleteReport(@PathVariable Long reportId) {
         reportService.deleteReport(reportId);
     }
+
 }

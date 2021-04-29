@@ -6,8 +6,8 @@ import com.dsmpear.main.user_backend_v2.exception.ReportNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class ReportFactory {
 
     private final ReportRepository reportRepository;
@@ -16,4 +16,5 @@ public class ReportFactory {
         return reportRepository.findById(value)
                 .orElseThrow(ReportNotFoundException::new);
     }
+
 }

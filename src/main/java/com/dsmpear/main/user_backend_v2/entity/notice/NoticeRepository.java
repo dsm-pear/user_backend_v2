@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-
 @Repository
 public interface NoticeRepository extends CrudRepository<Notice,Integer> {
     Page<Notice> findAllByOrderByCreatedAtDesc(Pageable page);

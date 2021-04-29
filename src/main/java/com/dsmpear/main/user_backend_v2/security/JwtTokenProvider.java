@@ -103,4 +103,5 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(encoding())
                 .parseClaimsJws(token).getBody();
     }
+
 }

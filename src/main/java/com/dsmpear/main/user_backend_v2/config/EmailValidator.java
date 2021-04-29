@@ -6,11 +6,13 @@ import org.springframework.stereotype.Component;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class EmailValidator implements ConstraintValidator<ValidateEmail, String> {
+
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
         return email.endsWith("@dsm.hs.kr");
     }
+
 }

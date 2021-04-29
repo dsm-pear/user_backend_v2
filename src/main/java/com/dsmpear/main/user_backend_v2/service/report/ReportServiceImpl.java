@@ -1,6 +1,5 @@
 package com.dsmpear.main.user_backend_v2.service.report;
 
-import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
@@ -9,25 +8,20 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportCustomRepositoryImpl;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
-import com.dsmpear.main.user_backend_v2.exception.ReportNotFoundException;
 import com.dsmpear.main.user_backend_v2.factory.ReportFactory;
 import com.dsmpear.main.user_backend_v2.factory.UserFactory;
 import com.dsmpear.main.user_backend_v2.mapper.*;
-import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
-import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
-import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
@@ -85,4 +79,5 @@ public class ReportServiceImpl implements ReportService {
         return report.getMembers().stream()
                 .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
     }
+
 }

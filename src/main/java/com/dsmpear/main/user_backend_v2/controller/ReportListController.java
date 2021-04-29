@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/report/filter")
 @RestController
 public class ReportListController {
+
     private final ReportService reportService;
 
     @GetMapping
@@ -25,4 +26,5 @@ public class ReportListController {
                                             Pageable page) {
         return reportService.getReportList(page,type,field,grade);
     }
+
 }

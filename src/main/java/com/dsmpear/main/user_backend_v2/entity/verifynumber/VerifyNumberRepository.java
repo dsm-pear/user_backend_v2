@@ -7,5 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface VerifyNumberRepository extends CrudRepository<VerifyNumber, String> {
-    public Optional<VerifyNumber> findByEmail(String email);
+    Optional<VerifyNumber> findByEmail(String email);
 }

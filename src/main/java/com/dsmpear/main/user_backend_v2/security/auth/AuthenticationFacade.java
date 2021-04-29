@@ -1,7 +1,5 @@
 package com.dsmpear.main.user_backend_v2.security.auth;
 
-import com.dsmpear.main.user_backend_v2.entity.user.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,4 +18,5 @@ public class AuthenticationFacade {
     public boolean isLogin() {
         return this.getAuthentication() != null;
     }
+
 }

@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = UserBackendV2Application.class)
 @ActiveProfiles("test")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MemberControllerTest {
+public class MemberControllerTest {
 
     @Autowired
     private WebApplicationContext context;
@@ -135,4 +135,5 @@ class MemberControllerTest {
         mvc.perform(delete("/member/"+member2.getId()))
                 .andExpect(status().isUnauthorized());
     }
+
 }

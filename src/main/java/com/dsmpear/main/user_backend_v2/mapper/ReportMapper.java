@@ -40,4 +40,5 @@ public interface ReportMapper {
     @Mapping(source = "report.createdAt", target = "createdAt")
     ReportContentResponse entityToContentResponse(Report report, Boolean isMine,
                                                   List<ReportCommentsResponse> comments, List<MemberResponse> member);
+
 }
