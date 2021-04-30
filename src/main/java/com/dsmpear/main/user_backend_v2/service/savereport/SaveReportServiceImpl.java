@@ -70,7 +70,7 @@ public class SaveReportServiceImpl implements SaveReportService{
     }
 
     private void updateMember(Report report, List<String> members) {
-        if(!members.stream().anyMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
+        if(members.stream().noneMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
             members.add(userFactory.createAuthUser().getEmail());
 
         report.getMembers().clear();
@@ -102,11 +102,8 @@ public class SaveReportServiceImpl implements SaveReportService{
         report.update(request);
         report.getReportType().update(request);
 
-        if(!isSoleRequest(request)) {
-            updateMember(report, ((TeamReportRequest) request).getMembers());
-        } else {
-            updateMember(report, Arrays.asList(userFactory.createAuthUser().getEmail()));
-        }
+        if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest) request).getMembers());
+        else updateMember(report, Arrays.asList(userFactory.createAuthUser().getEmail()));
 
         report.addLanguage(request.getLanguages());
 
