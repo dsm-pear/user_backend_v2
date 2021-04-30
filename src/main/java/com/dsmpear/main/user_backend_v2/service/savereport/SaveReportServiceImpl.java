@@ -88,7 +88,7 @@ public class SaveReportServiceImpl implements SaveReportService{
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
         if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest) request).getMembers());
-        else report.addMember(memberMapper.getEntity(userFactory.createAuthUser(), report));
+        else report.getMembers().add(memberMapper.getEntity(userFactory.createAuthUser(), report));
 
         return reportRepository.save(report);
     }
