@@ -60,7 +60,7 @@ public class Report extends BaseEntity {
 
     // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
     @Builder.Default
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE}, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Member> members = new ArrayList<>();
 
@@ -78,10 +78,6 @@ public class Report extends BaseEntity {
         this.github = reportRequest.getGithub();
         if (!(reportRequest instanceof SoleReportRequest))
             this.teamName = ((TeamReportRequest)reportRequest).getTeamName();
-    }
-
-    public void addMember(Member member) {
-        this.members.add(member);
     }
 
     public void addLanguage(List<String> language) {
