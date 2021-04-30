@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -78,7 +77,7 @@ public class EmailControllerTest {
                 .content(new ObjectMapper().writeValueAsString(new NotificationRequest("1000", "smoothbear@dsm.hs.kr", "",true))
                 ).contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "abcabc")
-        ).andDo(print()).andExpect(status().isInternalServerError());
+        ).andExpect(status().isInternalServerError());
     }
 
     @Test

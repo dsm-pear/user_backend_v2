@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -77,7 +76,7 @@ public class ReportControllerTest {
 
         mvc.perform(post("/report/sole")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(basicTestSupport.writeValueAsString(request))).andDo(print())
+                .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
 
@@ -88,7 +87,7 @@ public class ReportControllerTest {
 
         mvc.perform(post("/report/team")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(basicTestSupport.writeValueAsString(request))).andDo(print())
+                .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
 
@@ -110,7 +109,7 @@ public class ReportControllerTest {
 
         mvc.perform(post("/report/team/" + successReport.getId())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(basicTestSupport.writeValueAsString(request))).andDo(print())
+                .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
     }
 
