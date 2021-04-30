@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -88,7 +89,7 @@ public class SaveReportServiceImpl implements SaveReportService{
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
         if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest) request).getMembers());
-        else report.getMembers().add(memberMapper.getEntity(userFactory.createAuthUser(), report));
+        else Arrays.asList(userFactory.createAuthUser().getEmail());
 
         return reportRepository.save(report);
     }
@@ -104,8 +105,7 @@ public class SaveReportServiceImpl implements SaveReportService{
         if(!isSoleRequest(request)) {
             updateMember(report, ((TeamReportRequest) request).getMembers());
         } else {
-            report.getMembers().clear();
-            report.getMembers().add(memberMapper.getEntity(userFactory.createAuthUser(), report));
+            updateMember(report, Arrays.asList(userFactory.createAuthUser().getEmail()));
         }
 
         report.addLanguage(request.getLanguages());
