@@ -69,7 +69,7 @@ public class SaveReportServiceImpl implements SaveReportService{
     }
 
     private void updateMember(Report report, List<String> members) {
-        if(members.stream().anyMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
+        if(!members.stream().anyMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
             members.add(userFactory.createAuthUser().getEmail());
 
         report.getMembers().clear();
