@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+      - name: Grant permission to gradlew
+        run: chmod 755 gradlew
       - name: Build Gradle
         run: ./gradlew clean build
       - name: Push to Docker Hub
