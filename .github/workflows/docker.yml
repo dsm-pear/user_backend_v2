@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+      - name: Build Gradle
+        run: ./gradlew clean build
       - name: Push to Docker Hub
         uses: docker/build-push-action@v2
         with:
