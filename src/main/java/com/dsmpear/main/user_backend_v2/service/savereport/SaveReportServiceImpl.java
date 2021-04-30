@@ -1,6 +1,5 @@
 package com.dsmpear.main.user_backend_v2.service.savereport;
 
-import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
@@ -16,9 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -70,27 +66,15 @@ public class SaveReportServiceImpl implements SaveReportService{
         return updateReportContent(request, reportId);
     }
 
-    private void updateMember(Report report, List<String> members) {
-        if(members.stream().noneMatch(member -> member.equals(userFactory.createAuthUser().getEmail())))
-            members.add(userFactory.createAuthUser().getEmail());
-
-        report.getMembers().clear();
-        report.getMembers().addAll(members.stream()
-                .map(member -> Member.builder()
-                        .user(userFactory.createUser(member))
-                        .report(report).build()).collect(Collectors.toList()));
-    }
-
-    private <R extends BaseReportRequest> boolean isSoleRequest(R request) {
-        return request instanceof SoleReportRequest;
+    private <R extends BaseReportRequest> boolean isTeamRequest(R request) {
+        return !(request instanceof SoleReportRequest);
     }
 
     private <R extends BaseReportRequest> Report saveReport(R request) {
         Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
-        if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest) request).getMembers());
-        else updateMember(report, Collections.singletonList(userFactory.createAuthUser().getEmail()));
+        updateMember(request, report);
 
         return reportRepository.save(report);
     }
@@ -103,12 +87,24 @@ public class SaveReportServiceImpl implements SaveReportService{
         report.update(request);
         report.getReportType().update(request);
 
-        if(!isSoleRequest(request)) updateMember(report, ((TeamReportRequest) request).getMembers());
-        else updateMember(report, Collections.singletonList(userFactory.createAuthUser().getEmail()));
+        updateMember(request, report);
 
         report.addLanguage(request.getLanguages());
 
         return reportId;
+    }
+
+    private <R extends BaseReportRequest> void updateMember(R request, Report report) {
+        report.getMembers().clear();
+        if((isTeamRequest(request))) {
+            report.getMembers().addAll(((TeamReportRequest) request)
+                    .getMembers()
+                    .stream().filter(member -> !member.equals(userFactory.createAuthUser().getEmail()))
+                    .map(member ->
+                            memberMapper.getEntity(userFactory.createUser(member), report))
+                    .collect(Collectors.toList()));
+        }
+        report.getMembers().add(memberMapper.getEntity(userFactory.createAuthUser(), report));
     }
 
     private boolean isMine(Report report) {
