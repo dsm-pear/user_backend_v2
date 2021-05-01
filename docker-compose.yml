@@ -9,6 +9,22 @@ services:
       - /home/hong/projects/user_backend_v2/log:/logs/*.log
     networks:
       - redis-network
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - MAIL_USERNAME=${MAIL_USERNAME}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_ACCESS_TOKEN_EXP=${JWT_ACCESS_TOKEN_EXP}
+      - JWT_REFRESH_TOKEN_EXP=${JWT_REFRESH_TOKEN_EXP}
+      - JWT_HEADER=${JWT_HEADER}
+      - JWT_PREFIX=${JWT_PREFIX}
+      - MAIL_SECRET=${MAIL_SECRET}
+      - SERVER_URL=${SERVER_URL}
+      - SERVER_KEY=${SERVER_KEY}
   redis:
     image: redis
     container_name: redis-server
