@@ -32,5 +32,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_name }}/server:latest
-            ghcr.io/${{ github.repository_name }}/server:${{ env.RELEASE_VERSION }}
+            ghcr.io/user_backend_v2/server:latest
+            ghcr.io/user_backend_v2/server:${{ env.RELEASE_VERSION }}
