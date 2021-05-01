@@ -1,7 +1,10 @@
 package com.dsmpear.main.user_backend_v2.service.savereport;
 
+import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
+import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
 import com.dsmpear.main.user_backend_v2.facade.report.ReportFacade;
 import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
@@ -15,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ import java.util.stream.Collectors;
 public class SaveReportServiceImpl implements SaveReportService{
 
     private final ReportRepository reportRepository;
+    private final MemberRepository memberRepository;
 
     private final UserFacade userFacade;
     private final ReportFacade reportFacade;
@@ -57,6 +62,7 @@ public class SaveReportServiceImpl implements SaveReportService{
     @Override
     @Transactional
     public Long tempSaveTeamReport(TeamReportRequest request, Long reportId) {
+        System.out.println("service 시작!!");
         return updateReportContent(request, reportId);
     }
 
@@ -85,26 +91,25 @@ public class SaveReportServiceImpl implements SaveReportService{
         if(!isMine(report)) throw new InvalidAccessException();
 
         report.update(request);
-        report.getReportType().update(request);
 
         updateMember(request, report);
 
+        report.getReportType().update(request);
+
         report.addLanguage(request.getLanguages());
 
-        return reportId;
+        return report.getId();
     }
 
     private <R extends BaseReportRequest> void updateMember(R request, Report report) {
-        report.getMembers().clear();
-        if((isTeamRequest(request))) {
-            report.getMembers().addAll(((TeamReportRequest) request)
-                    .getMembers()
-                    .stream().filter(member -> !member.equals(userFacade.createAuthUser().getEmail()))
-                    .map(member ->
-                            memberMapper.getEntity(userFacade.createUser(member), report))
+        if(isTeamRequest(request)) {
+            report.addMember(((TeamReportRequest)request).getMembers()
+                    .stream().map(member -> Member.builder()
+                            .user(userFacade.createUser(member))
+                            .report(report)
+                            .build())
                     .collect(Collectors.toList()));
         }
-        report.getMembers().add(memberMapper.getEntity(userFacade.createAuthUser(), report));
     }
 
     private boolean isMine(Report report) {

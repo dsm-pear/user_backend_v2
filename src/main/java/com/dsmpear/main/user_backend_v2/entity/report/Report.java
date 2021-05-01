@@ -60,7 +60,7 @@ public class Report extends BaseEntity {
 
     // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
     @Builder.Default
-    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
     private List<Member> members = new ArrayList<>();
 
@@ -82,7 +82,12 @@ public class Report extends BaseEntity {
 
     public void addLanguage(List<String> language) {
         this.languages.clear();
-        language.forEach(lang -> this.languages.add(lang));
+        this.languages.addAll(language);
+    }
+
+    public void addMember(List<Member> members) {
+        this.members.clear();
+        this.members.addAll(members);
     }
 
 }
