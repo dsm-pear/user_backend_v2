@@ -62,7 +62,6 @@ public class SaveReportServiceImpl implements SaveReportService{
     @Override
     @Transactional
     public Long tempSaveTeamReport(TeamReportRequest request, Long reportId) {
-        System.out.println("service 시작!!");
         return updateReportContent(request, reportId);
     }
 
