@@ -32,5 +32,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            DSM-PEAR/user-backend:latest
-            DSM-PEAR/user-backend:${{ env.RELEASE_VERSION }}
+            dsm-pear/user-backend:latest
+            dsm-pear/user-backend:${{ env.RELEASE_VERSION }}
