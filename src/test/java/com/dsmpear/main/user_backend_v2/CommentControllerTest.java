@@ -100,7 +100,7 @@ public class CommentControllerTest {
         mvc.perform(post("/comment/"+successReport.getId())
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
 
     }
 
@@ -235,7 +235,7 @@ public class CommentControllerTest {
         Integer commentId1 = createComment(successReport);
 
         mvc.perform(delete("/comment/"+commentId1))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
 
     }
 
