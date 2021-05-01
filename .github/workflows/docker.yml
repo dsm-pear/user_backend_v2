@@ -32,5 +32,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/user_backend_v2/server:latest
-            ghcr.io/user_backend_v2/server:${{ env.RELEASE_VERSION }}
+            pear/user-backend:latest
+            pear/user-backend:${{ env.RELEASE_VERSION }}
