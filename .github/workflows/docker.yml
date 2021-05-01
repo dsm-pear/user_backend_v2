@@ -32,5 +32,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            docker.pkg.github.com/dsm-pear/user_backend_v2/user-server:latest
-            docker.pkg.github.com/dsm-pear/user_backend_v2/user-server:${{ env.RELEASE_VERSION }}
+            ghcr.io/DSM-PEAR/user-server:latest
+            ghcr.io/DSM-PEAR/user-server:${{ env.RELEASE_VERSION }}
