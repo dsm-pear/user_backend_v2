@@ -7,17 +7,16 @@ import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.exception.*;
+import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
 import com.dsmpear.main.user_backend_v2.payload.request.MemberRequest;
-import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
 
-    private final AuthenticationFacade authenticationFacade;
+    private final UserFacade userFacade;
 
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
@@ -25,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void addMember(MemberRequest memberRequest) {
-        User user = getUser();
+        User user = userFacade.createAuthUser();
 
         Report report = reportRepository.findById(memberRequest.getReportId())
                 .orElseThrow(ReportNotFoundException::new);
@@ -54,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void deleteMember(Integer memberId) {
-        User user = getUser();
+        User user = userFacade.createAuthUser();
 
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(MemberNotFoundException::new);
@@ -75,15 +74,6 @@ public class MemberServiceImpl implements MemberService {
             throw new UserEqualsMemberException();
         }
         memberRepository.delete(member);
-    }
-
-    private User getUser() {
-        if(!authenticationFacade.isLogin()) {
-            throw new UserCannotAccessException();
-        }
-
-        return userRepository.findById(authenticationFacade.getEmail())
-                .orElseThrow(UserNotFoundException::new);
     }
 
 }

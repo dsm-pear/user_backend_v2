@@ -8,8 +8,8 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportCustomRepositoryImpl;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
-import com.dsmpear.main.user_backend_v2.factory.ReportFactory;
-import com.dsmpear.main.user_backend_v2.factory.UserFactory;
+import com.dsmpear.main.user_backend_v2.facade.report.ReportFacade;
+import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
 import com.dsmpear.main.user_backend_v2.mapper.*;
 import com.dsmpear.main.user_backend_v2.payload.response.*;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +26,8 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportRepository reportRepository;
     private final ReportCustomRepositoryImpl reportCustomRepository;
-    private final UserFactory userFactory;
-    private final ReportFactory reportFactory;
+    private final UserFacade userFacade;
+    private final ReportFacade reportFacade;
 
     private final ReportMapper reportMapper;
     private final CommentMapper commentMapper;
@@ -35,10 +35,10 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ReportContentResponse getReport(Long reportId) {
-        Report report = reportFactory.create(reportId);
+        Report report = reportFacade.createReport(reportId);
 
         List<ReportCommentsResponse> comments = report.getComments().stream().map(comment ->
-                        commentMapper.entityToResponse(comment, comment.getUser().equals(userFactory.createAuthUser())))
+                        commentMapper.entityToResponse(comment, comment.getUser().equals(userFacade.createAuthUser())))
                 .collect(Collectors.toList());
 
         List<MemberResponse> members = report.getMembers().stream()
@@ -65,7 +65,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Long deleteReport(Long reportId) {
-        Report report = reportFactory.create(reportId);
+        Report report = reportFacade.createReport(reportId);
         if(!isMine(report)) throw new InvalidAccessException();
         reportRepository.delete(report);
         return reportId;
@@ -77,7 +77,7 @@ public class ReportServiceImpl implements ReportService {
 
     private boolean isMine(Report report) {
         return report.getMembers().stream()
-                .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
+                .anyMatch(member -> member.getUser().equals(userFacade.createAuthUser()));
     }
 
 }

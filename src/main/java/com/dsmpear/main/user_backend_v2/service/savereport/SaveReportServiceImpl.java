@@ -3,8 +3,8 @@ package com.dsmpear.main.user_backend_v2.service.savereport;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
-import com.dsmpear.main.user_backend_v2.factory.ReportFactory;
-import com.dsmpear.main.user_backend_v2.factory.UserFactory;
+import com.dsmpear.main.user_backend_v2.facade.report.ReportFacade;
+import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
 import com.dsmpear.main.user_backend_v2.mapper.MemberMapper;
 import com.dsmpear.main.user_backend_v2.mapper.ReportMapper;
 import com.dsmpear.main.user_backend_v2.mapper.ReportTypeMapper;
@@ -23,8 +23,8 @@ public class SaveReportServiceImpl implements SaveReportService{
 
     private final ReportRepository reportRepository;
 
-    private final UserFactory userFactory;
-    private final ReportFactory reportFactory;
+    private final UserFacade userFacade;
+    private final ReportFacade reportFacade;
 
     private final ReportMapper reportMapper;
     private final ReportTypeMapper reportTypeMapper;
@@ -71,7 +71,7 @@ public class SaveReportServiceImpl implements SaveReportService{
     }
 
     private <R extends BaseReportRequest> Report saveReport(R request) {
-        Report report = reportMapper.requestToEntity(request, userFactory.createAuthUser());
+        Report report = reportMapper.requestToEntity(request, userFacade.createAuthUser());
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
         updateMember(request, report);
@@ -80,7 +80,7 @@ public class SaveReportServiceImpl implements SaveReportService{
     }
 
     private <R extends BaseReportRequest>Long updateReportContent(R request, Long reportId) {
-        Report report = reportFactory.create(reportId);
+        Report report = reportFacade.createReport(reportId);
 
         if(!isMine(report)) throw new InvalidAccessException();
 
@@ -99,17 +99,17 @@ public class SaveReportServiceImpl implements SaveReportService{
         if((isTeamRequest(request))) {
             report.getMembers().addAll(((TeamReportRequest) request)
                     .getMembers()
-                    .stream().filter(member -> !member.equals(userFactory.createAuthUser().getEmail()))
+                    .stream().filter(member -> !member.equals(userFacade.createAuthUser().getEmail()))
                     .map(member ->
-                            memberMapper.getEntity(userFactory.createUser(member), report))
+                            memberMapper.getEntity(userFacade.createUser(member), report))
                     .collect(Collectors.toList()));
         }
-        report.getMembers().add(memberMapper.getEntity(userFactory.createAuthUser(), report));
+        report.getMembers().add(memberMapper.getEntity(userFacade.createAuthUser(), report));
     }
 
     private boolean isMine(Report report) {
         return report.getMembers().stream()
-                .anyMatch(member -> member.getUser().equals(userFactory.createAuthUser()));
+                .anyMatch(member -> member.getUser().equals(userFacade.createAuthUser()));
     }
 
 }
