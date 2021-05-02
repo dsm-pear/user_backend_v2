@@ -1,11 +1,14 @@
 package com.dsmpear.main.user_backend_v2;
 
+import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
+import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
@@ -40,6 +43,9 @@ public class ReportControllerTest {
     private ReportRepository reportRepository;
 
     @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -56,6 +62,7 @@ public class ReportControllerTest {
         basicTestSupport.createUser("email");
         basicTestSupport.createUser("email2");
         basicTestSupport.createUser("test@dsm.hs.kr");
+        basicTestSupport.createUser("test2@dsm.hs.kr");
 
         successReport = basicTestSupport.createReport("title_for_every", true, true, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", false, true, Access.EVERY);
@@ -103,7 +110,7 @@ public class ReportControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "test@dsm.hs.kr", password = "pwd")
+    @WithMockUser(value = "test2@dsm.hs.kr", password = "pwd")
     void 보고서_팀_수정_성공() throws Exception {
         TeamReportRequest request = buildTeamRequest("title");
 
@@ -111,6 +118,8 @@ public class ReportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(memberRepository.findAllByReport(successReport).size(), 3);
     }
 
     @Test

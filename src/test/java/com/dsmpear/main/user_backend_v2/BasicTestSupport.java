@@ -88,6 +88,7 @@ public class BasicTestSupport {
         );
 
         addMember(report, "test@dsm.hs.kr");
+        addMember(report, "test2@dsm.hs.kr");
 
         return report;
     }

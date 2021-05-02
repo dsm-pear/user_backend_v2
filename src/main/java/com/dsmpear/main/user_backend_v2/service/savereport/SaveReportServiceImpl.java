@@ -4,11 +4,9 @@ import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
-import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
 import com.dsmpear.main.user_backend_v2.facade.report.ReportFacade;
 import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
-import com.dsmpear.main.user_backend_v2.mapper.MemberMapper;
 import com.dsmpear.main.user_backend_v2.mapper.ReportMapper;
 import com.dsmpear.main.user_backend_v2.mapper.ReportTypeMapper;
 import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
@@ -18,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -26,14 +24,12 @@ import java.util.stream.Collectors;
 public class SaveReportServiceImpl implements SaveReportService{
 
     private final ReportRepository reportRepository;
-    private final MemberRepository memberRepository;
 
     private final UserFacade userFacade;
     private final ReportFacade reportFacade;
 
     private final ReportMapper reportMapper;
     private final ReportTypeMapper reportTypeMapper;
-    private final MemberMapper memberMapper;
 
     @Override
     @Transactional
@@ -103,12 +99,23 @@ public class SaveReportServiceImpl implements SaveReportService{
     private <R extends BaseReportRequest> void updateMember(R request, Report report) {
         if(isTeamRequest(request)) {
             report.addMember(((TeamReportRequest)request).getMembers()
-                    .stream().map(member -> Member.builder()
-                            .user(userFacade.createUser(member))
-                            .report(report)
-                            .build())
+                    .stream().distinct()
+                    .map(member -> buildMember(member, report))
                     .collect(Collectors.toList()));
         }
+
+        if(report.getMembers()
+                .stream().map(Member::getUser)
+                .noneMatch(user -> user.equals(userFacade.createAuthUser()))) {
+            report.addMember(Collections.singletonList(buildMember(userFacade.createAuthUser().getEmail(), report)));
+        }
+    }
+
+    private Member buildMember(String email, Report report) {
+        return Member.builder()
+                .user(userFacade.createUser(email))
+                .report(report)
+                .build();
     }
 
     private boolean isMine(Report report) {

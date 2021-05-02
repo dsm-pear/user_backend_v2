@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface MemberRepository extends CrudRepository<Member,Integer> {
     List<Member> findAllByUser(User user);
     Optional<Member> findByReportAndUser(Report report, User user);
+    List<Member> findAllByReport(Report report);
 }
