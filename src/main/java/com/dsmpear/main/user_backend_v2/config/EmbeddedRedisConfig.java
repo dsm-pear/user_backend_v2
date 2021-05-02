@@ -3,6 +3,7 @@ package com.dsmpear.main.user_backend_v2.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.util.StringUtils;
 import redis.embedded.RedisServer;
 
 import javax.annotation.PostConstruct;
@@ -23,14 +24,10 @@ public class EmbeddedRedisConfig {
     @PostConstruct
     public void runRedis() throws IOException {
         if(redisServer == null) {
-            if(getProcess(redisPort) == -1) {
+            if(isAvailableRedisPort()) {
                 redisServer = new RedisServer(redisPort);
             } else {
-                int port = 10000;
-                while(getProcess(port) != -1) {
-                    port++;
-                }
-                redisServer = new RedisServer(port);
+                redisServer = new RedisServer(findAvailablePort());
             }
             redisServer.start();
         }
@@ -42,20 +39,42 @@ public class EmbeddedRedisConfig {
             redisServer.stop();
     }
 
-    private int getProcess(int port) throws IOException {
-        Process ps = new ProcessBuilder("cmd", "/c", "netstat -a -o").start();
-        BufferedReader br = new BufferedReader(new InputStreamReader(ps.getInputStream()));
-        String line;
-        while ((line = br.readLine()) != null) {
-            if (line.contains(":" + port)) {
-                while (line.contains("  ")) {
-                    line = line.replaceAll("  ", " ");
-                }
-                int pid = Integer.parseInt(line.split(" ")[5]);
-                ps.destroy();
-                return pid;
+    public int findAvailablePort() throws IOException {
+
+        for (int port = 10000; port <= 65535; port++) {
+            Process process = executeGrepProcessCommand(port);
+            if (!isRunning(process)) {
+                return port;
             }
         }
-        return -1;
+
+        throw new IllegalArgumentException("No port avaliable");
+    }
+
+    private Process executeGrepProcessCommand(int port) throws IOException {
+        String command = String.format("netstat -nat | grep LISTEN|grep %d", port);
+        String[] shell = {"/bin/sh", "-c", command};
+        return Runtime.getRuntime().exec(shell);
+    }
+
+    private boolean isRunning(Process process) {
+        String line;
+        StringBuilder pidInfo = new StringBuilder();
+
+        try (BufferedReader input = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+
+            while ((line = input.readLine()) != null) {
+                pidInfo.append(line);
+            }
+
+        } catch (Exception ignored) {
+        }
+
+        return !StringUtils.isEmpty(pidInfo.toString());
+    }
+
+    private boolean isAvailableRedisPort() throws IOException {
+        Process process = executeGrepProcessCommand(redisPort);
+        return !isRunning(process);
     }
 }
