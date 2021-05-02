@@ -10,10 +10,6 @@ jobs:
     environment: 
       name: Deploy to docker hub
     steps:
-      - name: Redis Server in GitHub Actions
-        uses: supercharge/redis-github-action@1.1.0
-        with:
-          redis-version: 6
       - name: Check out the repo
         uses: actions/checkout@v2
       - name: Set env
