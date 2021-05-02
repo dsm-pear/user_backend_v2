@@ -9,12 +9,15 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Configuration
-@Profile("local")
+@Profile("test")
 public class EmbeddedRedisConfig {
 
     private final RedisServer redisServer;
 
-    public EmbeddedRedisConfig(@Value("${spring.redis.port}") int redisPort) {
+    @Value("${spring.redis.port}")
+    int redisPort;
+
+    public EmbeddedRedisConfig() {
         this.redisServer = RedisServer.builder()
                 .setting("maxheap 128M")
                 .build();
@@ -27,7 +30,8 @@ public class EmbeddedRedisConfig {
 
     @PreDestroy
     public void stopRedis() {
-        redisServer.stop();
+        if(redisServer != null)
+            redisServer.stop();
     }
 
 }
