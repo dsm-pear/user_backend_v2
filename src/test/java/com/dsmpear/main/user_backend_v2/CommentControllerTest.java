@@ -196,7 +196,7 @@ public class CommentControllerTest {
         mvc.perform(patch("/comment/"+commentId)
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
 
     }
 
