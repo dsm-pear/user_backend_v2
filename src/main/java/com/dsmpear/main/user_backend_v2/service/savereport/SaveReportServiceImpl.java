@@ -109,6 +109,7 @@ public class SaveReportServiceImpl implements SaveReportService{
                 .noneMatch(user -> user.equals(userFacade.createAuthUser()))) {
             report.addMember(Collections.singletonList(buildMember(userFacade.createAuthUser().getEmail(), report)));
         }
+
     }
 
     private Member buildMember(String email, Report report) {
@@ -120,7 +121,8 @@ public class SaveReportServiceImpl implements SaveReportService{
 
     private boolean isMine(Report report) {
         return report.getMembers().stream()
-                .anyMatch(member -> member.getUser().equals(userFacade.createAuthUser()));
+                .map(Member::getUser)
+                .anyMatch(member -> member.equals(userFacade.createAuthUser()));
     }
 
 }

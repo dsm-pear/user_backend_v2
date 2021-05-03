@@ -110,6 +110,17 @@ public class ReportControllerTest {
     }
 
     @Test
+    @WithMockUser(value = "email", password = "pwd")
+    void 보고서_개인_수정_실패() throws Exception {
+        SoleReportRequest request = buildSoleRequest("title");
+
+        mvc.perform(patch("/report/sole/" + successReport.getId())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(basicTestSupport.writeValueAsString(request)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     @WithMockUser(value = "test2@dsm.hs.kr", password = "pwd")
     void 보고서_팀_수정_성공() throws Exception {
         TeamReportRequest request = buildTeamRequest("title");
