@@ -15,8 +15,4 @@ public interface MemberMapper {
     @Mapping(source = "member.id", target = "memberId")
     MemberResponse entityToResponse(Member member);
 
-    @Mapping(source = "report", target = "report")
-    @Mapping(source = "user", target = "user")
-    Member getEntity(User user, Report report);
-
 }

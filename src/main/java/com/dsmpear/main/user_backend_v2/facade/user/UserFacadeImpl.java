@@ -8,8 +8,8 @@ import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
 @RequiredArgsConstructor
+@Component
 public class UserFacadeImpl implements UserFacade {
 
     private final AuthenticationFacade authenticationFacade;
