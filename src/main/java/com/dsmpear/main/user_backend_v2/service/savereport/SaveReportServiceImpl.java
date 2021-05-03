@@ -105,13 +105,13 @@ public class SaveReportServiceImpl implements SaveReportService{
 
         if(isTeamRequest(request)) {
             members.addAll(((TeamReportRequest)request).getMembers()
-                    .stream().distinct()
-                    .filter(user -> !user.equals(userFacade.createAuthUser().getEmail()))
-                    .map(member -> buildMember(member, report))
+                    .stream().map(member -> buildMember(member, report))
                     .collect(Collectors.toList()));
         }
-        
-        report.addMember(members);
+
+        report.addMember(members
+                .stream().distinct()
+                .collect(Collectors.toList()));
 
     }
 
