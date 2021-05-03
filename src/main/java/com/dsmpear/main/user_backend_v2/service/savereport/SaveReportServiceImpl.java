@@ -16,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -97,18 +100,18 @@ public class SaveReportServiceImpl implements SaveReportService{
     }
 
     private <R extends BaseReportRequest> void updateMember(R request, Report report) {
+        List<Member> members = new ArrayList<>(
+                Collections.singletonList(buildMember(userFacade.createAuthUser().getEmail(), report)));
+
         if(isTeamRequest(request)) {
-            report.addMember(((TeamReportRequest)request).getMembers()
+            members.addAll(((TeamReportRequest)request).getMembers()
                     .stream().distinct()
+                    .filter(user -> !user.equals(userFacade.createAuthUser().getEmail()))
                     .map(member -> buildMember(member, report))
                     .collect(Collectors.toList()));
         }
-
-        if(report.getMembers()
-                .stream().map(Member::getUser)
-                .noneMatch(user -> user.equals(userFacade.createAuthUser()))) {
-            report.addMember(Collections.singletonList(buildMember(userFacade.createAuthUser().getEmail(), report)));
-        }
+        
+        report.addMember(members);
 
     }
 
