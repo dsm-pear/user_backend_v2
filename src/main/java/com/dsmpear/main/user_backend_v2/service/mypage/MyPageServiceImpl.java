@@ -58,17 +58,14 @@ public class MyPageServiceImpl implements MyPageService {
         List<MyPageReportResponse> myPageReportResponses = new ArrayList<>();
 
         for(Member member : members) {
-            Report report = reportRepository.findById(member.getReport().getId())
-                    .orElseThrow(NoticeNotFoundException::new);
-
             myPageReportResponses.add(
                     MyPageReportResponse.builder()
-                            .reportId(report.getId())
-                            .title(report.getTitle())
-                            .createdAt(report.getCreatedAt())
-                            .type(report.getReportType().getType())
-                            .isRejected(report.getComment() != null)
-                            .isSubmitted(report.getIsSubmitted())
+                            .reportId(member.getReport().getId())
+                            .title(member.getReport().getTitle())
+                            .createdAt(member.getReport().getCreatedAt())
+                            .type(member.getReport().getReportType().getType())
+                            .isRejected(member.getReport().getComment() != null)
+                            .isSubmitted(member.getReport().getIsSubmitted())
                             .build()
             );
         }
