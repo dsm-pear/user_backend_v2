@@ -9,6 +9,8 @@ import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.exception.NoticeNotFoundException;
 import com.dsmpear.main.user_backend_v2.exception.UserCannotAccessException;
 import com.dsmpear.main.user_backend_v2.exception.UserNotFoundException;
+import com.dsmpear.main.user_backend_v2.facade.report.ReportFacade;
+import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
 import com.dsmpear.main.user_backend_v2.payload.response.MyPageReportResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfilePageResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
@@ -28,11 +30,11 @@ public class MyPageServiceImpl implements MyPageService {
     private final ReportRepository reportRepository;
     private final MemberRepository memberRepository;
 
-    private final AuthenticationFacade authenticationFacade;
+    private final UserFacade userFacade;
 
     @Override
     public ProfilePageResponse getMyPage() {
-        User user = getUser();
+        User user = userFacade.createAuthUser();
 
         return ProfilePageResponse.builder()
                 .userName(user.getName())
@@ -44,14 +46,14 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public void setSelfIntro(String intro, String gitHub) {
-        User user = getUser();
+        User user = userFacade.createAuthUser();
         user.updateInfo(intro, gitHub);
         userRepository.save(user);
     }
 
     @Override
     public ProfileReportsResponse getReport(Pageable page) {
-        User user = getUser();
+        User user = userFacade.createAuthUser();
         List<Member> members = memberRepository.findAllByUser(user);
         List<MyPageReportResponse> myPageReportResponses = new ArrayList<>();
 
@@ -79,14 +81,6 @@ public class MyPageServiceImpl implements MyPageService {
                 .totalPages(totalPages)
                 .myPageReportResponses(myPageReportResponses)
                 .build();
-    }
-
-    private User getUser() {
-        if(!authenticationFacade.isLogin()) {
-            throw new UserCannotAccessException();
-        }
-        return userRepository.findById(authenticationFacade.getEmail())
-                .orElseThrow(UserNotFoundException::new);
     }
 
 }

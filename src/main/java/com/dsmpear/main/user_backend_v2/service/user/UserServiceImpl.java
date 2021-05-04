@@ -7,12 +7,11 @@ import com.dsmpear.main.user_backend_v2.entity.verifyuser.VerifyUser;
 import com.dsmpear.main.user_backend_v2.entity.verifyuser.VerifyUserRepository;
 import com.dsmpear.main.user_backend_v2.exception.NumberNotFoundException;
 import com.dsmpear.main.user_backend_v2.exception.UserAlreadyExist;
-import com.dsmpear.main.user_backend_v2.exception.UserCannotAccessException;
+import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
 import com.dsmpear.main.user_backend_v2.payload.request.EmailVerifyRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.RegisterRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.UserResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.UsersResponse;
-import com.dsmpear.main.user_backend_v2.security.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private final VerifyNumberRepository verifyNumberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final AuthenticationFacade authenticationFacade;
+    private final UserFacade userFacade;
 
     @Override
     public void register(RegisterRequest request) {
@@ -55,9 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UsersResponse getUserList(String name) {
-        if(!authenticationFacade.isLogin()) {
-            throw new UserCannotAccessException();
-        }
+        userFacade.createAuthUser();
 
         List<User> users = userRepository.findAllByNameContainingOrderByName(name);
         List<UserResponse> userResponses = new ArrayList<>();
