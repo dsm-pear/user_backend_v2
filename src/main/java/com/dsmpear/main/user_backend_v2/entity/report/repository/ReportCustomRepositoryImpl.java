@@ -62,24 +62,15 @@ public class ReportCustomRepositoryImpl {
     }
 
     private BooleanExpression eqGrade(Grade grade) {
-        if(grade == null) {
-            return null;
-        }
-        return report.reportType.grade.eq(grade);
+        return grade == null ? null : report.reportType.grade.eq(grade);
     }
 
     private BooleanExpression eqField(Field field) {
-        if(field == null) {
-            return null;
-        }
-        return report.reportType.field.eq(field);
+        return field == null ? null : report.reportType.field.eq(field);
     }
 
     private BooleanExpression eqType(Type type) {
-        if(type == null) {
-            return null;
-        }
-        return report.reportType.type.eq(type);
+        return type == null ? null : report.reportType.type.eq(type);
     }
 
 }
