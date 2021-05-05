@@ -1,7 +1,7 @@
 package com.dsmpear.main.user_backend_v2.service.search;
 
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
+import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;

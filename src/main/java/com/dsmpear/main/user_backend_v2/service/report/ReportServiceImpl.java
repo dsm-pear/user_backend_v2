@@ -1,7 +1,7 @@
 package com.dsmpear.main.user_backend_v2.service.report;
 
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
+import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
@@ -37,19 +37,20 @@ public class ReportServiceImpl implements ReportService {
     public ReportContentResponse getReport(Long reportId) {
         Report report = reportFacade.createReport(reportId);
 
-        List<ReportCommentsResponse> comments = report.getComments().stream().map(comment ->
+        List<ReportCommentsResponse> comments = report.getComments()
+                .stream().map(comment ->
                         commentMapper.entityToResponse(comment, comment.getUser().equals(userFacade.createAuthUser())))
                 .collect(Collectors.toList());
 
-        List<MemberResponse> members = report.getMembers().stream()
-                .map(memberMapper::entityToResponse)
+        List<MemberResponse> members = report.getMembers()
+                .stream().map(memberMapper::entityToResponse)
                 .collect(Collectors.toList());
 
         if(!isAccessable(report)) {
             throw new InvalidAccessException();
         }
 
-        return reportMapper.entityToContentResponse(report, isMine(report), comments, members);
+        return reportMapper.entityToContentResponse(report, userFacade.isMine(report), comments, members);
     }
 
     @Override
@@ -66,18 +67,13 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public Long deleteReport(Long reportId) {
         Report report = reportFacade.createReport(reportId);
-        if(!isMine(report)) throw new InvalidAccessException();
+        if(!userFacade.isMine(report)) throw new InvalidAccessException();
         reportRepository.delete(report);
         return reportId;
     }
 
     private boolean isAccessable(Report report) {
-        return report.getReportType().getAccess().equals(Access.EVERY) || isMine(report);
-    }
-
-    private boolean isMine(Report report) {
-        return report.getMembers().stream()
-                .anyMatch(member -> member.getUser().equals(userFacade.createAuthUser()));
+        return report.getReportType().getAccess().equals(Access.EVERY) || userFacade.isMine(report);
     }
 
 }

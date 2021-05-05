@@ -40,7 +40,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileReportsResponse getReport(String userEmail, Pageable page) {
         User user = userFacade.createUser(userEmail);
 
-        Page<Report> reportPage = reportCustomRepository.findAllByMembersContainsAndIsAcceptedAndIsSubmittedTrueAndReportTypeAccessOrderByReportIdDesc(user, Access.EVERY, page);
+        Page<Report> reportPage = reportCustomRepository.findAllByMembersContainsAndIsAcceptedAndIsSubmittedTrueAndReportTypeAccessOrderByReportIdDesc(user, page);
         List<ProfileReportResponse> reportResponses = new ArrayList<>();
 
         for(Report report : reportPage) {

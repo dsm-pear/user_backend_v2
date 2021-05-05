@@ -2,7 +2,7 @@ package com.dsmpear.main.user_backend_v2.service.savereport;
 
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
+import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportRepository;
 import com.dsmpear.main.user_backend_v2.exception.InvalidAccessException;
 import com.dsmpear.main.user_backend_v2.facade.report.ReportFacade;
 import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
@@ -84,7 +84,7 @@ public class SaveReportServiceImpl implements SaveReportService{
     private <R extends BaseReportRequest>Long updateReportContent(R request, Long reportId) {
         Report report = reportFacade.createReport(reportId);
 
-        if(!isMine(report)) throw new InvalidAccessException();
+        if(!userFacade.isMine(report)) throw new InvalidAccessException();
 
         report.update(request);
 
@@ -118,12 +118,6 @@ public class SaveReportServiceImpl implements SaveReportService{
                 .user(userFacade.createUser(email))
                 .report(report)
                 .build();
-    }
-
-    private boolean isMine(Report report) {
-        return report.getMembers().stream()
-                .map(Member::getUser)
-                .anyMatch(member -> member.equals(userFacade.createAuthUser()));
     }
 
 }
