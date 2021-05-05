@@ -67,7 +67,7 @@ public class MyPageServiceImpl implements MyPageService {
         }
 
         long totalElements = members.size();
-        int totalPages = members.size() + (members.size()%page.getPageSize()>0?1:0);
+        int totalPages = members.size()/page.getPageSize() + (members.size()%page.getPageSize()>0?1:0);
 
         return ProfileReportsResponse.builder()
                 .totalElements(totalElements)
