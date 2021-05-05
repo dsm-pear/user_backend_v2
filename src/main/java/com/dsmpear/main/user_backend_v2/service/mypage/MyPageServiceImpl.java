@@ -1,12 +1,8 @@
 package com.dsmpear.main.user_backend_v2.service.mypage;
 
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
-import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
-import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
-import com.dsmpear.main.user_backend_v2.exception.NoticeNotFoundException;
 import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
 import com.dsmpear.main.user_backend_v2.payload.response.MyPageReportResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfilePageResponse;
@@ -23,8 +19,6 @@ import java.util.List;
 public class MyPageServiceImpl implements MyPageService {
 
     private final UserRepository userRepository;
-    private final ReportRepository reportRepository;
-    private final MemberRepository memberRepository;
 
     private final UserFacade userFacade;
 
@@ -49,8 +43,7 @@ public class MyPageServiceImpl implements MyPageService {
 
     @Override
     public ProfileReportsResponse getReport(Pageable page) {
-        User user = userFacade.createAuthUser();
-        List<Member> members = memberRepository.findAllByUser(user);
+        List<Member> members = userFacade.createAuthUser().getMember();
         List<MyPageReportResponse> myPageReportResponses = new ArrayList<>();
 
         for(Member member : members) {
