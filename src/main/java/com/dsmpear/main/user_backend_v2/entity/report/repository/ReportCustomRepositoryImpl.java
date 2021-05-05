@@ -31,7 +31,7 @@ public class ReportCustomRepositoryImpl {
                         .and(report.isAccepted.eq(true)))
                 .where(eqGrade(grade)
                         .and(eqType(type))
-                        .and(eqAccess(Access.EVERY))
+                        .and(eqAccess())
                         .and(eqField(field)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -41,14 +41,14 @@ public class ReportCustomRepositoryImpl {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    public Page<Report> findAllByMembersContainsAndIsAcceptedAndIsSubmittedTrueAndReportTypeAccessOrderByReportIdDesc(User user, Access access, Pageable page) {
+    public Page<Report> findAllByMembersContainsAndIsAcceptedAndIsSubmittedTrueAndReportTypeAccessOrderByReportIdDesc(User user, Pageable page) {
         QueryResults<Report> results = jpaQueryFactory
                 .select(report)
                 .from(report)
                 .where(report.members.any().user.eq(user)
                     .and(report.isAccepted.eq(true))
                     .and(report.isSubmitted.eq(true))
-                    .and(report.reportType.access.eq(access)))
+                    .and(eqAccess()))
                 .offset(page.getOffset())
                 .limit(page.getPageSize())
                 .orderBy(report.id.desc())
@@ -57,11 +57,8 @@ public class ReportCustomRepositoryImpl {
         return new PageImpl<>(results.getResults(), page, results.getTotal());
     }
 
-    private BooleanExpression eqAccess(Access access) {
-        if (access == null) {
-            return null;
-        }
-        return report.reportType.access.eq(access);
+    private BooleanExpression eqAccess() {
+        return report.reportType.access.eq(Access.EVERY);
     }
 
     private BooleanExpression eqGrade(Grade grade) {
