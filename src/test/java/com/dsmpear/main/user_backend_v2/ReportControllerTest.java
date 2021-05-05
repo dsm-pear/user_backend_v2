@@ -1,14 +1,12 @@
 package com.dsmpear.main.user_backend_v2;
 
-import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.ReportRepository;
+import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
-import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
