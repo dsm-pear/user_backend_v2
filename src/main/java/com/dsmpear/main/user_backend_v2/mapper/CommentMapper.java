@@ -12,7 +12,7 @@ import org.mapstruct.Mapping;
 public interface CommentMapper {
 
     @Mapping(source = "report", target = "report")
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "super.id", ignore = true)
     Comment requestToEntity(CommentRequest commentRequest, Report report, User user);
 
     @Mapping(source = "comment.id", target = "commentId")

@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.notice;
 
-import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
+import com.dsmpear.main.user_backend_v2.entity.BaseCreatedAtEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,10 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "notice_tbl")
 @Entity
-public class Notice extends BaseEntity {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Notice extends BaseCreatedAtEntity {
 
     @Column(length = 50, nullable = false)
     private String title;

@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.question;
 
+import com.dsmpear.main.user_backend_v2.entity.BaseIdEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,10 +15,7 @@ import javax.validation.constraints.Email;
 @AllArgsConstructor
 @Table(name = "question_tbl")
 @Entity
-public class Question {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Question extends BaseIdEntity {
 
     @Email
     @Column(nullable = false,length = 30)

@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.comment;
 
-import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
+import com.dsmpear.main.user_backend_v2.entity.BaseCreatedAtEntity;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -18,11 +18,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "comment_tbl")
 @Entity
-public class Comment extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Comment extends BaseCreatedAtEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "report_id")
@@ -37,9 +33,8 @@ public class Comment extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
-    public Comment updateContent(String content) {
+    public void updateContent(String content) {
         this.content = content;
-        return this;
     }
 
 }

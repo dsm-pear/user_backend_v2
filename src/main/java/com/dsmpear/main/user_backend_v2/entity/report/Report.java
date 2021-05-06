@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.report;
 
-import com.dsmpear.main.user_backend_v2.entity.BaseEntity;
+import com.dsmpear.main.user_backend_v2.entity.BaseCreatedAtEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
@@ -21,11 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "report_tbl")
 @Entity
-public class Report extends BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Report extends BaseCreatedAtEntity {
 
     @Column(nullable = false)
     private String title;

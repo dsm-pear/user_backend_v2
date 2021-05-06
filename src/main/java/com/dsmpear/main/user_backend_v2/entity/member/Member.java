@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.entity.member;
 
+import com.dsmpear.main.user_backend_v2.entity.BaseIdEntity;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -16,10 +17,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Table(name = "member_tbl")
 @Entity
-public class Member {
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Member extends BaseIdEntity {
 
     @ManyToOne
     @JsonBackReference
