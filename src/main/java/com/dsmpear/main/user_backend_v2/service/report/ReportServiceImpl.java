@@ -46,7 +46,7 @@ public class ReportServiceImpl implements ReportService {
                 .stream().map(memberMapper::entityToResponse)
                 .collect(Collectors.toList());
 
-        if(!isAccessable(report)) {
+        if(!isAccessible(report)) {
             throw new InvalidAccessException();
         }
 
@@ -72,7 +72,7 @@ public class ReportServiceImpl implements ReportService {
         return reportId;
     }
 
-    private boolean isAccessable(Report report) {
+    private boolean isAccessible(Report report) {
         return report.getReportType().getAccess().equals(Access.EVERY) || userFacade.isMine(report);
     }
 

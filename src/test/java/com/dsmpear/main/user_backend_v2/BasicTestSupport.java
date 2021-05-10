@@ -69,9 +69,7 @@ public class BasicTestSupport {
     public Report createReport(String title, Boolean isAccepted, Boolean isSubmitted, Access access) {
         Report report = Report.builder()
                         .description("desc")
-                        .isAccepted(isAccepted)
                         .title(title)
-                        .isSubmitted(isSubmitted)
                         .github("gitthub")
                         .teamName("teamName")
                         .languages(Arrays.asList("dsaf","asdf"))

@@ -3,6 +3,7 @@ package com.dsmpear.main.user_backend_v2.entity.report;
 import com.dsmpear.main.user_backend_v2.entity.BaseCreatedAtEntity;
 import com.dsmpear.main.user_backend_v2.entity.comment.Comment;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
+import com.dsmpear.main.user_backend_v2.entity.report.embedded.Status;
 import com.dsmpear.main.user_backend_v2.entity.reportfile.ReportFile;
 import com.dsmpear.main.user_backend_v2.entity.reporttype.ReportType;
 import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
@@ -29,19 +30,16 @@ public class Report extends BaseCreatedAtEntity {
     @Column(nullable = false)
     private String description;
 
-    @Builder.Default
-    @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted = false;
-
-    @Column(name = "is_submitted", nullable = false)
-    private Boolean isSubmitted;
-
     @Column(name = "team_name")
     private String teamName;
 
     private String comment;
 
     private String github;
+
+    @Builder.Default
+    @Embedded
+    private Status status = new Status();
 
     //  관계매핑
     @Setter

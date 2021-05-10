@@ -15,7 +15,6 @@ import java.util.List;
 @Mapper(config = MapStructConfig.class)
 public interface ReportMapper {
 
-    @Mapping(target = "isAccepted", defaultValue = "false", ignore = true)
     @Mapping(target = "reportType.type", source = "request.type")
     @Mapping(target = "reportType.field", source = "request.field")
     @Mapping(target = "reportType.access", source = "request.access")
