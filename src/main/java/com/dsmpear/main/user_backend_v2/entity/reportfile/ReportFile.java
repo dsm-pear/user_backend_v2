@@ -21,9 +21,6 @@ public class ReportFile extends BaseIdEntity {
     @Column(nullable = false, length = 100)
     private String path;
 
-    @Column(nullable = false, length = 50)
-    private String fileName;
-
     @OneToOne
     @JsonBackReference
     @JoinColumn(name = "report_id")
