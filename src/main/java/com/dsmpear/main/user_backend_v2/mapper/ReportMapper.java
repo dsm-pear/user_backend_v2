@@ -33,7 +33,6 @@ public interface ReportMapper {
     @Mapping(source = "report.reportType.field", target = "field")
     @Mapping(source = "report.reportType.access", target = "access")
     @Mapping(source = "report.reportType.grade", target = "grade")
-    @Mapping(source = "report.reportFile.fileName", target = "fileName")
     @Mapping(source = "report.reportFile.id", target = "fileId")
     @Mapping(source = "comments", target = "comments")
     @Mapping(source = "member", target = "member")
