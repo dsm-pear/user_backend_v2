@@ -37,7 +37,6 @@ public class Report extends BaseCreatedAtEntity {
 
     private String github;
 
-    @Builder.Default
     @Embedded
     private Status status = new Status();
 

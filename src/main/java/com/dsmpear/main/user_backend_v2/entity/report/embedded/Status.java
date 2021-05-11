@@ -9,18 +9,15 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Embeddable
 public class Status {
 
-    public Status() {
-        this.isAccepted = true;
-        this.isSubmitted = false;
-    }
-
+    @Builder.Default
     @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted;
+    private Boolean isAccepted = true;
 
     @Column(name = "is_submitted", nullable = false)
     private Boolean isSubmitted;

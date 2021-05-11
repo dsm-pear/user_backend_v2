@@ -8,6 +8,8 @@ import com.dsmpear.main.user_backend_v2.payload.response.MyPageReportResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfilePageResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -59,12 +61,11 @@ public class MyPageServiceImpl implements MyPageService {
             );
         }
 
-        long totalElements = members.size();
-        int totalPages = members.size()/page.getPageSize() + (members.size()%page.getPageSize()>0?1:0);
+        PageImpl<MyPageReportResponse> pageReportResponses = new PageImpl<>(myPageReportResponses, page, myPageReportResponses.size());
 
         return ProfileReportsResponse.builder()
-                .totalElements(totalElements)
-                .totalPages(totalPages)
+                .totalElements(pageReportResponses.getTotalElements())
+                .totalPages(pageReportResponses.getTotalPages())
                 .myPageReportResponses(myPageReportResponses)
                 .build();
     }

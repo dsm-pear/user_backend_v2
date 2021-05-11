@@ -3,6 +3,7 @@ package com.dsmpear.main.user_backend_v2;
 import com.dsmpear.main.user_backend_v2.entity.member.Member;
 import com.dsmpear.main.user_backend_v2.entity.member.MemberRepository;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
+import com.dsmpear.main.user_backend_v2.entity.report.embedded.Status;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
@@ -73,6 +74,7 @@ public class BasicTestSupport {
                         .github("gitthub")
                         .teamName("teamName")
                         .languages(Arrays.asList("dsaf","asdf"))
+                        .status(new Status(isAccepted, isSubmitted))
                         .build();
 
         reportTypeRepository.save(
