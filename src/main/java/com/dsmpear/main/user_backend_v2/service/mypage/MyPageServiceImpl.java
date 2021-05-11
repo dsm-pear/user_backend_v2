@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -60,6 +61,8 @@ public class MyPageServiceImpl implements MyPageService {
                             .build()
             );
         }
+
+        Collections.reverse(myPageReportResponses);
 
         PageImpl<MyPageReportResponse> pageReportResponses = new PageImpl<>(myPageReportResponses, page, myPageReportResponses.size());
 
