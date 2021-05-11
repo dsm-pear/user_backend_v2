@@ -38,7 +38,7 @@ public class Report extends BaseCreatedAtEntity {
     private String github;
 
     @Embedded
-    private Status status = new Status();
+    private Status status;
 
     //  관계매핑
     @Setter
