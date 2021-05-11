@@ -44,7 +44,7 @@ server:
 
 secret:
   key: ${SERVER_KEY}
-  
+
 logging:
   file:
     name: ./logs/logs
