@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void createComment(CommentRequest request, Long reportId) {
-        Comment comment = commentMapper.requestToEntity(request, reportFacade.createReport(reportId), userFacade.createAuthUser());
+        Comment comment = commentMapper.requestToEntity(request, reportFacade.createAccessReport(reportId), userFacade.createAuthUser());
         commentRepository.save(comment);
     }
 
