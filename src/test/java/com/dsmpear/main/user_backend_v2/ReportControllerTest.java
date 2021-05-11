@@ -141,6 +141,7 @@ public class ReportControllerTest {
         ReportContentResponse response = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .readValue(result.getResponse().getContentAsString(), ReportContentResponse.class);
+
         Assertions.assertEquals("title_for_every", response.getTitle());
     }
 

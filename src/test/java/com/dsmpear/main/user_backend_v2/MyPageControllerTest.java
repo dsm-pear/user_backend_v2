@@ -5,7 +5,10 @@ import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportRepositor
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
 import com.dsmpear.main.user_backend_v2.payload.request.SetSelfIntroRequest;
+import com.dsmpear.main.user_backend_v2.payload.response.MyPageReportResponse;
+import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,6 +21,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -95,10 +99,16 @@ public class MyPageControllerTest {
     @Test
     @WithMockUser(value = "test@dsm.hs.kr", password = "1111")
     public void getReports() throws Exception {
-        mvc.perform(get("/user/profile/report")
+        MvcResult result = mvc.perform(get("/user/profile/report")
                 .param("size","6")
                 .param("page", "0"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ProfileReportsResponse response = new ObjectMapper().registerModule(new JavaTimeModule()).readValue(result.getResponse().getContentAsString(), ProfileReportsResponse.class);
+
+        Assertions.assertEquals(response.getMyPageReportResponses().get(0).getIsAccepted(), false);
+        Assertions.assertEquals(response.getMyPageReportResponses().get(0).getIsSubmitted(), true);
     }
 
 }
