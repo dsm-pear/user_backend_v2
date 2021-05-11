@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.config;
 
+import com.dsmpear.main.user_backend_v2.security.JwtAuthenticationEntryPoint;
 import com.dsmpear.main.user_backend_v2.security.JwtConfigurer;
 import com.dsmpear.main.user_backend_v2.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     @Override
@@ -54,7 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                     .antMatchers(HttpMethod.GET, "/report/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    .apply(new JwtConfigurer(jwtTokenProvider));
+                    .apply(new JwtConfigurer(jwtTokenProvider))
+                .and()
+                    .exceptionHandling()
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint);
     }
 
     @Override

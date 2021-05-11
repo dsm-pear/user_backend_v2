@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ErrorCode {
-    INVALID_TOKEN(400, "AUTH400-0", "Invalid Token"),
+    INVALID_TOKEN(401, "AUTH400-0", "Invalid Token"),
   
     USER_NOT_FOUND(404, "USER404-0", "User Not Found"),
     USER_CANNOT_ACCESS(401, "USER401-0", "User Cannot Access"),
