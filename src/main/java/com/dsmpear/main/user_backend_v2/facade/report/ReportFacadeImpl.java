@@ -18,4 +18,10 @@ public class ReportFacadeImpl implements ReportFacade {
                 .orElseThrow(ReportNotFoundException::new);
     }
 
+    @Override
+    public Report createAccessReport(Long reportId) {
+        return reportRepository.findByIdAndStatusIsAcceptedTrueAndStatusIsSubmittedTrue(reportId)
+                .orElseThrow(ReportNotFoundException::new);
+    }
+
 }
