@@ -16,4 +16,6 @@ public interface ReportRepository extends CrudRepository<Report,Long> {
 
     //제목 검색 ORM
     Page<Report> findAllByReportTypeAccessAndStatusIsAcceptedTrueAndStatusIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(Access access, String title, Pageable page);
+
+    Optional<Report> findByIdAndStatusIsAcceptedTrueAndStatusIsSubmittedTrue(Long reportId);
 }
