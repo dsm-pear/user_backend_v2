@@ -48,4 +48,6 @@ public class ReportContentResponse {
 
     private Long fileId;
 
+    private String github;
+
 }
