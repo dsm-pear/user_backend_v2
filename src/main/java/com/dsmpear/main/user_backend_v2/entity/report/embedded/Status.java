@@ -17,7 +17,7 @@ public class Status {
 
     @Builder.Default
     @Column(name = "is_accepted", nullable = false)
-    private Boolean isAccepted = true;
+    private Boolean isAccepted = false;
 
     @Column(name = "is_submitted", nullable = false)
     private Boolean isSubmitted;
