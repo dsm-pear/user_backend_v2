@@ -23,7 +23,4 @@ public class Notice extends BaseCreatedAtEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;
 
-    @Column(length = 50, name = "file_name")
-    private String fileName;
-
 }
