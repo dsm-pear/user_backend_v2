@@ -44,6 +44,7 @@ public class CommentControllerTest {
     private MockMvc mvc;
 
     Report successReport;
+    Report failureReport;
 
     @BeforeEach
     void setUp() {
@@ -55,7 +56,7 @@ public class CommentControllerTest {
         basicTestSupport.createUser("test1@dsm.hs.kr");
 
         successReport = basicTestSupport.createReport("title_for_every", true, true, Access.EVERY);
-        basicTestSupport.createReport("title_for_not_shown", false, true, Access.EVERY);
+        failureReport = basicTestSupport.createReport("title_for_not_shown", false, true, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", false, false, Access.EVERY);
         basicTestSupport.createReport("title_for_not_shown", true, true, Access.ADMIN);
     }
@@ -84,6 +85,24 @@ public class CommentControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
 
+    }
+
+    // 댓글 작성 실패 테스트
+    @Test
+    @WithMockUser(value = "test@dsm.hs.kr", password = "1234")
+    public void createComment2() throws Exception {
+        createComment(failureReport);
+        createComment(failureReport);
+        createComment(failureReport);
+
+        CommentRequest request = CommentRequest.builder()
+                .content("아이야아이야")
+                .build();
+
+        mvc.perform(post("/comment/"+failureReport.getId())
+                .content(new ObjectMapper().writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound());
     }
 
     // 댓글 작성 실패 테스트
