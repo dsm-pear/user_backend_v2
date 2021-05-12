@@ -77,7 +77,6 @@ public class NoticeControllerTest {
                 Notice.builder()
                         .title(str)
                         .description(str)
-                        .fileName(str)
                         .build()
         ).getId();
     }

@@ -51,7 +51,6 @@ public class NoticeServiceImpl implements NoticeService {
                 .title(notice.getTitle())
                 .description(notice.getDescription())
                 .createdAt(notice.getCreatedAt())
-                .fileName(notice.getFileName())
                 .build();
     }
 
