@@ -18,8 +18,8 @@ public class ReportController {
     }
 
     @DeleteMapping("/{reportId}")
-    public void deleteReport(@PathVariable Long reportId) {
-        reportService.deleteReport(reportId);
+    public Long deleteReport(@PathVariable Long reportId) {
+        return reportService.deleteReport(reportId);
     }
 
 }
