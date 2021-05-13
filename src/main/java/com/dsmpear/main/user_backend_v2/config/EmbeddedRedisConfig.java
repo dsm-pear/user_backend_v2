@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @RequiredArgsConstructor
-@Profile("test")
+@Profile({"test", "local"})
 @Configuration
 public class EmbeddedRedisConfig {
 
