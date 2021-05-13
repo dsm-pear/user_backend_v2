@@ -9,7 +9,6 @@ import com.dsmpear.main.user_backend_v2.payload.response.ProfilePageResponse;
 import com.dsmpear.main.user_backend_v2.payload.response.ProfileReportsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

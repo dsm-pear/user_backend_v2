@@ -1,7 +1,6 @@
 package com.dsmpear.main.user_backend_v2.service.profile;
 
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
-import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.repository.ReportCustomRepositoryImpl;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.facade.user.UserFacade;
