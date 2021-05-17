@@ -44,6 +44,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, encoding())
                 .setSubject(email)
                 .claim("type", "access")
+                .claim("role", "user")
                 .compact();
     }
 
