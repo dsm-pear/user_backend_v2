@@ -1,8 +1,7 @@
 package com.dsmpear.main.user_backend_v2.security;
 
+import com.dsmpear.main.user_backend_v2.exception.InvalidTokenException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import reactor.util.annotation.NonNull;
 
@@ -19,11 +18,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        String token = jwtTokenProvider.resolveToken(request);
-
-        if(token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            jwtTokenProvider.tokenFilter(request);
+        } catch (InvalidTokenException e) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
 
         filterChain.doFilter(request, response);
