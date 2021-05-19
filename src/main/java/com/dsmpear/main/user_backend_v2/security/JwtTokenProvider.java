@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +30,9 @@ public class JwtTokenProvider {
     @Value("${auth.jwt.exp.refresh}")
     private Long refreshTokenExpiration;
 
-    @Value("${auth.jwt.header}")
-    private String header;
+    private static final String HEADER = "Authorization";
 
-    @Value("${auth.jwt.prefix}")
-    private String prefix;
+    private static final String PREFIX = "Bearer";
 
     private final AuthDetailsService authDetailsService;
 
@@ -58,16 +57,25 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String resolveToken(HttpServletRequest request) {
-        String bearer = request.getHeader(header);
+    public void tokenFilter(HttpServletRequest request) {
+        String token = resolveToken(request);
 
-        if(bearer != null && bearer.startsWith(prefix)) {
+        if(token != null && validateToken(token)) {
+            Authentication authentication = getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        String bearer = request.getHeader(HEADER);
+
+        if(bearer != null && bearer.startsWith(PREFIX)) {
             return bearer.substring(7);
         }
         return null;
     }
 
-    public boolean validateToken(String token) {
+    private boolean validateToken(String token) {
         try {
             return getTokenBody(token).getExpiration().after(new Date());
         } catch (Exception e) {
@@ -83,7 +91,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public String getEmail(String token) {
+    private String getEmail(String token) {
         try {
             return getTokenBody(token).getSubject();
         } catch (Exception e) {
@@ -91,7 +99,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public Authentication getAuthentication(String token) {
+    private Authentication getAuthentication(String token) {
         AuthDetails authDetails = authDetailsService.loadUserByUsername(getEmail(token));
         return new UsernamePasswordAuthenticationToken(authDetails, "", authDetails.getAuthorities());
     }
