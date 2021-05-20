@@ -49,13 +49,13 @@ public class Report extends BaseCreatedAtEntity {
     @Builder.Default
     @ElementCollection  // 컬렉션 값 타입은, 부모에게 생명 주기가 완전히 종속되어 있고, 만약 변경된다면 모두 지운 후 다시 저장된다
     @CollectionTable(name = "language_tbl", joinColumns = @JoinColumn(name = "report_id"))
-    private List<String> languages = new ArrayList<>();
+    private final List<String> languages = new ArrayList<>();
 
     // 원래 builder 패턴을 사용한데다가 따로 setter를 사용하지 않아서 초기화가 필요 없었지만, add를 해주기 위해 초기화가 필요하다
     @Builder.Default
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "report", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
-    private List<Member> members = new ArrayList<>();
+    private final List<Member> members = new ArrayList<>();
 
     @OneToOne(mappedBy = "report", fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -63,7 +63,7 @@ public class Report extends BaseCreatedAtEntity {
 
     @OneToMany(mappedBy = "report", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonManagedReference
-    private List<Comment> comments;
+    private final List<Comment> comments = new ArrayList<>();
 
     public <R extends BaseReportRequest>void update(R reportRequest) {
         this.title = reportRequest.getTitle();
