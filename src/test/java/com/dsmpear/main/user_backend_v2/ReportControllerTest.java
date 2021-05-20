@@ -105,8 +105,6 @@ public class ReportControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request)))
                 .andExpect(status().isCreated());
-
-        Assertions.assertEquals(successReport.getTitle(), "title");
     }
 
     @Test

@@ -87,13 +87,9 @@ public class SaveReportServiceImpl implements SaveReportService{
         if(!userFacade.isMine(report)) throw new InvalidAccessException();
 
         report.update(request);
-
         updateMember(request, report);
-
         report.getReportType().update(request);
-
         report.addLanguage(request.getLanguages());
-
         return report.getId();
     }
 

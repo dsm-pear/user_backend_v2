@@ -14,6 +14,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Builder
@@ -65,6 +66,20 @@ public class Report extends BaseCreatedAtEntity {
     @JsonManagedReference
     private final List<Comment> comments = new ArrayList<>();
 
+    // getters
+    public List<String> getLanguages() {
+        return Collections.unmodifiableList(languages);
+    }
+
+    public List<Member> getMembers() {
+        return Collections.unmodifiableList(members);
+    }
+
+    public List<Comment> getComments() {
+        return Collections.unmodifiableList(comments);
+    }
+
+    // update methods
     public <R extends BaseReportRequest>void update(R reportRequest) {
         this.title = reportRequest.getTitle();
         this.description = reportRequest.getDescription();
