@@ -38,6 +38,8 @@ public class EmailServiceImpl implements EmailService {
     @Value("${secret.key}")
     private String secretKey;
 
+    private static final Random RANDOM = new Random();
+
     @Override
     public void sendNotification(NotificationRequest request, String secretKey) {
 
@@ -54,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
 
             javaMailSender.send(preparator);
         } catch (Exception e) {
-            logger.error("Notification Mail Send Error" + e.getMessage());
+            logger.error(e.getMessage(), "Notification Mail Send Error{}");
             throw new EmailSendFailException();
         }
     }
@@ -81,15 +83,14 @@ public class EmailServiceImpl implements EmailService {
                             .build()
             );
         } catch (Exception e) {
-            logger.error("Auth Mail Send Failed" + e.getMessage() + "\nsendTo : " + sendTo);
+            logger.error(e.getMessage(),sendTo,"Auth Mail Send Failed{}\nsendTo : {}");
             throw new EmailSendFailException();
         }
     }
 
     private String generateVerifyNumber() {
-        Random random = new Random();
-        random.setSeed(System.currentTimeMillis());
-        return Integer.toString(random.nextInt(1000000) % 1000000);
+        RANDOM.setSeed(System.currentTimeMillis());
+        return Integer.toString(RANDOM.nextInt(1000000) % 1000000);
     }
 
     @SneakyThrows
