@@ -43,13 +43,13 @@ public class SaveReportController {
     @PostMapping("/sole/{reportId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Long temporarySoleStorage(@RequestBody @Valid SoleReportRequest reportRequest, @PathVariable Long reportId) {
-        return saveReportService.tempSaveSoleReport(reportRequest, reportId);
+            return saveReportService.updateSoleReport(reportRequest, reportId);
     }
 
     @PostMapping("/team/{reportId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Long temporaryTeamStorage(@RequestBody @Valid TeamReportRequest reportRequest, @PathVariable Long reportId) {
-        return saveReportService.tempSaveTeamReport(reportRequest, reportId);
+        return saveReportService.updateTeamReport(reportRequest, reportId);
     }
 
 }

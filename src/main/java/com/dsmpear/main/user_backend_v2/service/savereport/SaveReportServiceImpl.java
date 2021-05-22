@@ -40,12 +40,6 @@ public class SaveReportServiceImpl implements SaveReportService{
 
     @Override
     @Transactional
-    public Long tempSaveSoleReport(SoleReportRequest request, Long reportId) {
-        return updateReportContent(request, reportId);
-    }
-
-    @Override
-    @Transactional
     public Long updateSoleReport(SoleReportRequest request, Long reportId) {
         return updateReportContent(request, reportId);
     }
@@ -54,12 +48,6 @@ public class SaveReportServiceImpl implements SaveReportService{
     @Transactional
     public Long saveTeamReport(TeamReportRequest request) {
         return saveReport(request).getId();
-    }
-
-    @Override
-    @Transactional
-    public Long tempSaveTeamReport(TeamReportRequest request, Long reportId) {
-        return updateReportContent(request, reportId);
     }
 
     @Override
@@ -74,6 +62,7 @@ public class SaveReportServiceImpl implements SaveReportService{
 
     private <R extends BaseReportRequest> Report saveReport(R request) {
         Report report = reportMapper.requestToEntity(request, userFacade.createAuthUser());
+        report = setTeamName(report, request);
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
         updateMember(request, report);
@@ -98,7 +87,7 @@ public class SaveReportServiceImpl implements SaveReportService{
                 Collections.singletonList(buildMember(userFacade.createAuthUser().getEmail(), report)));
 
         if(isTeamRequest(request)) {
-            members.addAll(((TeamReportRequest)request).getMembers()
+            members.addAll(getTeamReportRequest(request).getMembers()
                     .stream().map(member -> buildMember(member, report))
                     .collect(Collectors.toList()));
         }
@@ -114,6 +103,16 @@ public class SaveReportServiceImpl implements SaveReportService{
                 .user(userFacade.createUser(email))
                 .report(report)
                 .build();
+    }
+
+    private <T extends BaseReportRequest> Report setTeamName(Report report, T request) {
+        return report.toBuilder()
+                .teamName(isTeamRequest(request) ? getTeamReportRequest(request).getTeamName() : null)
+                .build();
+    }
+
+    private TeamReportRequest getTeamReportRequest(BaseReportRequest request) {
+        return (TeamReportRequest) request;
     }
 
 }
