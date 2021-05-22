@@ -39,8 +39,7 @@ public class SaveReportSupporter {
     }
 
     public <R extends BaseReportRequest> Report saveReport(R request) {
-        Report report = reportMapper.requestToEntity(request, userFacade.createAuthUser());
-        report = setTeamName(report, request);
+        Report report = setTeamName(reportMapper.requestToEntity(request, userFacade.createAuthUser()), request);
         report.setReportType(reportTypeMapper.requestToEntity(request, report));
 
         updateMember(request, report);

@@ -8,6 +8,7 @@ import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Type;
 import com.dsmpear.main.user_backend_v2.entity.user.UserRepository;
+import com.dsmpear.main.user_backend_v2.exception.ReportNotFoundException;
 import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
@@ -90,10 +91,19 @@ public class ReportControllerTest {
     void 보고서_팀_작성_성공() throws Exception {
          TeamReportRequest request = buildTeamRequest("title");
 
-        mvc.perform(post("/report/team")
+        MvcResult result = mvc.perform(post("/report/team")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(basicTestSupport.writeValueAsString(request)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        Report report = reportRepository.findById(
+                new ObjectMapper().readValue(result.getResponse().getContentAsString(), Long.class))
+                .orElseThrow(ReportNotFoundException::new);
+
+        Assertions.assertNotEquals(report.getTeamName(), "");
+        Assertions.assertNotEquals(report.getTeamName(), null);
+
     }
 
     @Test
@@ -188,7 +198,7 @@ public class ReportControllerTest {
 
     private TeamReportRequest buildTeamRequest(String title) {
         return TeamReportRequest.builder()
-                .teamName("teamName")
+                .teamName("teamName11")
                 .members(Arrays.asList("email", "email2"))
                 .title(title)
                 .type(Type.TEAM)
