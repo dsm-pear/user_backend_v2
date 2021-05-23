@@ -65,7 +65,8 @@ public class SaveReportSupporter {
 
         if(isTeamRequest(request)) {
             members.addAll(getTeamReportRequest(request).getMembers()
-                    .stream().map(member -> buildMember(member, report))
+                    .stream().distinct()
+                    .map(member -> buildMember(member, report))
                     .collect(Collectors.toList()));
         }
 
