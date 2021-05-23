@@ -4,10 +4,7 @@ import com.dsmpear.main.user_backend_v2.entity.BaseIdEntity;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -16,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "member_tbl")
+@EqualsAndHashCode(callSuper = false)
 @Entity
 public class Member extends BaseIdEntity {
 
