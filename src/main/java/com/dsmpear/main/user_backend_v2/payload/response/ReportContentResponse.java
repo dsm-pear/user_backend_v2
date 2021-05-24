@@ -38,6 +38,8 @@ public class ReportContentResponse {
 
     private Boolean isMine;
 
+    private Boolean isSubmitted;
+
     private List<ReportCommentsResponse> comments;
 
     private String teamName;
