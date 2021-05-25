@@ -51,7 +51,6 @@ public class SearchServiceImpl implements SearchService {
         Page<Report> reportPage = reportRepository.findAllByReportTypeAccessAndStatusIsAcceptedTrueAndStatusIsSubmittedTrueAndTitleContainsOrderByCreatedAtDesc(Access.EVERY, title, pageable);
 
         return ReportListResponse.builder()
-                .totalElements(reportPage.getTotalElements())
                 .totalPages(reportPage.getTotalPages())
                 .reportResponses(reportPage
                         .map(reportMapper::entityToResponse)
