@@ -26,8 +26,6 @@ public class ReportContentResponse {
 
     private List<String> languages;
 
-    private String fileName;
-
     private Type type;
 
     private Grade grade;
