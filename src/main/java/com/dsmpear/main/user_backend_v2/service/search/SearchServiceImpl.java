@@ -41,7 +41,6 @@ public class SearchServiceImpl implements SearchService {
         }
 
         return SearchProfileResponse.builder()
-                .totalElements(users.getTotalElements())
                 .totalPages(users.getTotalPages())
                 .userResponses(userResponses)
                 .build();

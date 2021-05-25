@@ -36,7 +36,6 @@ public class NoticeServiceImpl implements NoticeService {
         }
 
         return NoticesResponse.builder()
-                .totalElements(noticePage.getTotalElements())
                 .totalPages(noticePage.getTotalPages())
                 .noticeResponses(notices)
                 .build();

@@ -54,7 +54,6 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         return ProfileReportsResponse.builder()
-                .totalElements(reportPage.getTotalElements())
                 .totalPages(reportPage.getTotalPages())
                 .profileReportResponses(reportResponses)
                 .build();

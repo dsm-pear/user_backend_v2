@@ -59,7 +59,6 @@ public class ReportServiceImpl implements ReportService {
 
         return ReportListResponse.builder()
                 .reportResponses(reportResponses.map(reportMapper::entityToResponse).toList())
-                .totalElements(reportResponses.getTotalElements())
                 .totalPages(reportResponses.getTotalPages())
                 .build();
     }

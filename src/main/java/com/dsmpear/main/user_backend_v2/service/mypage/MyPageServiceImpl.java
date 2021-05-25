@@ -67,7 +67,6 @@ public class MyPageServiceImpl implements MyPageService {
         PageImpl<MyPageReportResponse> pageReportResponses = new PageImpl<>(myPageReportResponses, page, myPageReportResponses.size());
 
         return ProfileReportsResponse.builder()
-                .totalElements(pageReportResponses.getTotalElements())
                 .totalPages(pageReportResponses.getTotalPages())
                 .myPageReportResponses(myPageReportResponses)
                 .build();

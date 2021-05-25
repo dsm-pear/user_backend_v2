@@ -11,8 +11,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class PageResponse {
 
-    private Long totalElements;
-
     private int totalPages;
 
 }
