@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.payload.request;
 
-import com.dsmpear.main.user_backend_v2.config.ValidateEmail;
+import com.dsmpear.main.user_backend_v2.config.validation.ValidateEmail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
 package com.dsmpear.main.user_backend_v2.controller;
 
-import com.dsmpear.main.user_backend_v2.config.ValidateEmail;
+import com.dsmpear.main.user_backend_v2.config.validation.ValidateEmail;
 import com.dsmpear.main.user_backend_v2.payload.request.EmailVerifyRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.NotificationRequest;
 import com.dsmpear.main.user_backend_v2.service.email.EmailService;

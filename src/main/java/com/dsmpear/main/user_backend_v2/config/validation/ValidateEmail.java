@@ -1,4 +1,4 @@
-package com.dsmpear.main.user_backend_v2.config;
+package com.dsmpear.main.user_backend_v2.config.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

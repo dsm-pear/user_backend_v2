@@ -1,4 +1,4 @@
-package com.dsmpear.main.user_backend_v2.config;
+package com.dsmpear.main.user_backend_v2.config.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

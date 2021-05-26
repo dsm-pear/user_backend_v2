@@ -1,5 +1,6 @@
 package com.dsmpear.main.user_backend_v2.payload.request.report;
 
+import com.dsmpear.main.user_backend_v2.config.validation.ValidateGithubUrl;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Access;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Field;
 import com.dsmpear.main.user_backend_v2.entity.report.enums.Grade;
@@ -42,6 +43,7 @@ public abstract class BaseReportRequest {
     @NotNull
     private Boolean isSubmitted;
 
+    @ValidateGithubUrl
     private String github;
 
 }
