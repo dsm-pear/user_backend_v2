@@ -84,6 +84,7 @@ public class Report extends BaseCreatedAtEntity {
         this.title = reportRequest.getTitle();
         this.description = reportRequest.getDescription();
         this.github = reportRequest.getGithub();
+        this.comment = null;
         if (!(reportRequest instanceof SoleReportRequest))
             this.teamName = ((TeamReportRequest)reportRequest).getTeamName();
     }
