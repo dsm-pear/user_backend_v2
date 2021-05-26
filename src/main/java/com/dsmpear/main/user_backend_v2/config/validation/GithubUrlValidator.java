@@ -10,8 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 @Component
 public class GithubUrlValidator implements ConstraintValidator<ValidateGithubUrl, String> {
 
-    private static final String HTTP_GITHUB_LINK = "http://github.com";
-    private static final String HTTPS_GITHUB_LINK = "https://github.com";
+    private static final String GITHUB_LINK = "github.com";
 
     @Override
     public boolean isValid(String url, ConstraintValidatorContext context) {
@@ -19,7 +18,6 @@ public class GithubUrlValidator implements ConstraintValidator<ValidateGithubUrl
     }
 
     private boolean isStartsWithGithub(String url) {
-        return url.startsWith(HTTP_GITHUB_LINK)
-                || url.startsWith(HTTPS_GITHUB_LINK);
+        return url.contains(GITHUB_LINK);
     }
 }
