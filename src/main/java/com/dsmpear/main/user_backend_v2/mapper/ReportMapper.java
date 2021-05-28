@@ -38,6 +38,7 @@ public interface ReportMapper {
     @Mapping(source = "comments", target = "comments")
     @Mapping(source = "member", target = "member")
     @Mapping(source = "report.createdAt", target = "createdAt")
+    @Mapping(source = "report.status.isSubmitted", target = "isSubmitted")
     ReportContentResponse entityToContentResponse(Report report, Boolean isMine,
                                                   List<ReportCommentsResponse> comments, List<MemberResponse> member);
 

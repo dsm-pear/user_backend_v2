@@ -153,6 +153,7 @@ public class ReportControllerTest {
                 .readValue(result.getResponse().getContentAsString(), ReportContentResponse.class);
 
         Assertions.assertEquals("title_for_every", response.getTitle());
+        Assertions.assertTrue(response.getIsSubmitted());
     }
 
     @Test
