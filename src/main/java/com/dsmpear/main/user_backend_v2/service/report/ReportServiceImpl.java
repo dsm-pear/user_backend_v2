@@ -37,20 +37,23 @@ public class ReportServiceImpl implements ReportService {
     public ReportContentResponse getReport(Long reportId) {
         Report report = reportFacade.createReport(reportId);
 
+        List<MemberResponse> members = getMembers(report);
+
         List<ReportCommentsResponse> comments = report.getComments()
                 .stream().map(comment ->
                         commentMapper.entityToResponse(comment, comment.getUser().equals(userFacade.createAuthUser())))
                 .collect(Collectors.toList());
 
-        List<MemberResponse> members = report.getMembers()
-                .stream().map(memberMapper::entityToResponse)
-                .collect(Collectors.toList());
-
-        if(!isAccessible(report)) {
-            throw new InvalidAccessException();
-        }
-
+        validateAccessible(report);
         return reportMapper.entityToContentResponse(report, userFacade.isMine(report), comments, members);
+    }
+
+    @Override
+    public ReportModifyResponse getReportModify(Long reportId) {
+        Report report = reportFacade.createReport(reportId);
+        List<MemberResponse> members = getMembers(report);
+        validateAccessible(report);
+        return reportMapper.entityToModifyResponse(report, userFacade.isMine(report), members);
     }
 
     @Override
@@ -71,8 +74,15 @@ public class ReportServiceImpl implements ReportService {
         return reportId;
     }
 
-    private boolean isAccessible(Report report) {
-        return report.getReportType().getAccess().equals(Access.EVERY) || userFacade.isMine(report);
+    private List<MemberResponse> getMembers(Report report) {
+        return report.getMembers()
+                .stream().map(memberMapper::entityToResponse)
+                .collect(Collectors.toList());
+    }
+
+    private void validateAccessible(Report report) {
+        if(!(report.getReportType().getAccess().equals(Access.EVERY) || userFacade.isMine(report)))
+            throw new InvalidAccessException();
     }
 
 }

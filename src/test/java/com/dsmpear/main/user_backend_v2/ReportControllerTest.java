@@ -12,6 +12,7 @@ import com.dsmpear.main.user_backend_v2.exception.ReportNotFoundException;
 import com.dsmpear.main.user_backend_v2.payload.request.report.SoleReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.request.report.TeamReportRequest;
 import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
+import com.dsmpear.main.user_backend_v2.payload.response.ReportModifyResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.AfterEach;
@@ -31,6 +32,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.Arrays;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -154,6 +156,21 @@ public class ReportControllerTest {
 
         Assertions.assertEquals("title_for_every", response.getTitle());
         Assertions.assertTrue(response.getIsSubmitted());
+    }
+
+
+    @Test
+    @WithMockUser(value = "email", password = "pwd")
+    void 보고서_변경_보기_성공() throws Exception {
+        MvcResult result = mvc.perform(get("/report/modify/"+successReport.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        ReportModifyResponse response = new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .readValue(result.getResponse().getContentAsString(), ReportModifyResponse.class);
+
+        Assertions.assertEquals("title_for_every", response.getTitle());
     }
 
     @Test

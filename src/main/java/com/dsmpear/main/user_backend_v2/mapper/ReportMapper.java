@@ -3,10 +3,7 @@ package com.dsmpear.main.user_backend_v2.mapper;
 import com.dsmpear.main.user_backend_v2.entity.report.Report;
 import com.dsmpear.main.user_backend_v2.entity.user.User;
 import com.dsmpear.main.user_backend_v2.payload.request.report.BaseReportRequest;
-import com.dsmpear.main.user_backend_v2.payload.response.MemberResponse;
-import com.dsmpear.main.user_backend_v2.payload.response.ReportCommentsResponse;
-import com.dsmpear.main.user_backend_v2.payload.response.ReportContentResponse;
-import com.dsmpear.main.user_backend_v2.payload.response.ReportResponse;
+import com.dsmpear.main.user_backend_v2.payload.response.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -41,5 +38,15 @@ public interface ReportMapper {
     @Mapping(source = "report.status.isSubmitted", target = "isSubmitted")
     ReportContentResponse entityToContentResponse(Report report, Boolean isMine,
                                                   List<ReportCommentsResponse> comments, List<MemberResponse> member);
+
+    @Mapping(source = "report.languages", target = "languages")
+    @Mapping(source = "report.reportType.type", target = "type")
+    @Mapping(source = "report.reportType.field", target = "field")
+    @Mapping(source = "report.reportType.access", target = "access")
+    @Mapping(source = "report.reportType.grade", target = "grade")
+    @Mapping(source = "report.reportFile.id", target = "fileId")
+    @Mapping(source = "member", target = "member")
+    @Mapping(source = "report.createdAt", target = "createdAt")
+    ReportModifyResponse entityToModifyResponse(Report report, Boolean isMine, List<MemberResponse> member);
 
 }
